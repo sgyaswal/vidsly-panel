@@ -1,0 +1,49 @@
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 18px;
+  }
+  
+  #customers tr:nth-child(even){background-color: #1f2b46;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+
+  .table-section{
+    padding: 20px;
+  }
+
+  .withdrawl-section{
+    padding: 10px 20px 20px 20px;
+    margin: 20px;
+    background-color: #1F2A40;
+    width: fit-content;
+  }
+
+  .button-flexing{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .withdrawl-button{
+    padding: 15px 30px;
+    background-color: #04AA6D;
+    border: 0px solid;
+    border-radius: 10px;
+    color: white;
+
+  }
