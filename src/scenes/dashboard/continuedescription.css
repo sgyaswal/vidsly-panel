@@ -1,0 +1,21 @@
+/* CSS */
+@keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .marquee-container {
+    width: 100%; /* Set a fixed width or width as per your design */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+  }
+  
+  .marquee-text {
+    display: inline-block;
+    animation: marquee 9s linear infinite; /* Adjust animation duration as needed */
+  }
+  
