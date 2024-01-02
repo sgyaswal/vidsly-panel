@@ -7,6 +7,12 @@ import { useTheme } from "@mui/material";
 import { useState, useEffect } from "react";
 import * as React from 'react';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import UpdateForm from "./UpdateForm";
 
 const Contacts = () => {
   const theme = useTheme();
@@ -15,11 +21,19 @@ const Contacts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userId, setuserId] = useState(null)
+  const [statuses, setStatuses] = useState({})
+  const [colorChanged, setColorChanged] = useState({});
+  const [Loading, setLoading] = useState({
+    api1: true,
+  });
+  const [open, setOpen] = React.useState(false);
+
 
   //   const auttok = localStorage.getItem('data')
   // console.log(JSON.stringify(auttok))
 
-  let token
+  let token 
+  
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -32,15 +46,42 @@ const Contacts = () => {
   }
   const authToken = token
 
-  let statusid
+  // let statusid
 
-  const handleActiveClick = (usid) => {
-    setuserId(usid)
-    console.log("mmmmmmmmmm", usid);
-    // You can perform any logic related to handleActiveClick here
+  const handleActiveClick = async (usid) => {
+
+    try {
+      console.log('Active button clicked for user ID:', usid,);
+      const response = await fetch(`http://127.0.0.1:8000/api/user/userApproval/${usid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          approve: true
+        })
+      });
+      console.log("XXXXXXXXXXXXXfghjkXXXXXXX", `${response.status}`)
+      setStatuses(prevStatuses => ({
+        ...prevStatuses,
+        [usid]: !prevStatuses[usid], // Toggle the status for the specific ID
+      }));
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Response data:', data);
+      setuserId(usid)
+    } catch (error) {
+      console.error('Error:', error.message);
+      // Handle specific error cases or display an error message to the user
+    }
   };
-  const sid = statusid
-  console.log("XXXXXXXXXXXXXXXXXXXX", authToken)
+  // const sid = statusid
+  // console.log("XXXXXXXXXXXXXXXXXXXX", authToken)
 
 
   const fetchAllUsers = async () => {
@@ -71,73 +112,15 @@ const Contacts = () => {
   };
 
 
-  const handleUserStatus = async () => {
-    try {
-      console.log('Active button clicked for user ID:', userId);
-      const response = await fetch(`http://127.0.0.1:8000/api/user/userApproval/${userId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log('Response data:', data);
-    } catch (error) {
-      console.error('Error:', error.message);
-      // Handle specific error cases or display an error message to the user
-    }
-  };
 
 
   // console.log(token)
   useEffect(() => {
     fetchAllUsers();
-    handleUserStatus()
-  }, [authToken,userId]);
 
-  // const handleActiveClick = (usid) => {
-  //   console.log("mmmmmmmmmm",usid)
-  // }
-  // useEffect(() => {
-  //   const handleUserStatus = async (handleActiveClick(usid)) => {
-  //     try {
-  //       console.log('Active button clicked for user ID:', userId);
-  //       const response = await fetch(`http://127.0.0.1:8000/api/user/userApproval/${userId}`, {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${authToken}`,
-  //         },
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-
-  //       const data = await response.json();
-  //       console.log('Response data:', data);
-  //     } catch (error) {
-  //       console.error('Error:', error.message);
-  //       // Handle specific error cases or display an error message to the user
-  //     }
-
-  //   };
-  // }, [authToken]);
+  }, [authToken, userId]);
 
 
-
-  // useEffect(() => {
-
-
-  //   handleUserStatus(); // Call the function to perform the API request
-
-  // }, [authToken, userId]); // Ensure to include any dependencies needed inside the dependency array
 
 
 
@@ -155,28 +138,10 @@ const Contacts = () => {
   // console.log("helloo",users[0].id)
   let staticId = 1;
 
-  // const transformedData = users.data.map((user) => ({
-  //   sid: staticId++,
-  //   id: user.id,
-  //   name: `${user.first_name} ${user.last_name}`,
-  //   email: user.email,
-  //   date_joined: user.date_joined.split("T"),
-  //   username: user.username,
-  //   is_active: user.is_active,
-  //   is_staff: user.is_staff,
-  //   // ... other properties based on transformation
-  // }));
-  // console.log("VVVVVVVVV",transformedData)
-
-
-
-
-
-
   const transformedData = users.data.map((user) => {
     const splitDateTime = user.date_joined.split("T");
 
-    return {
+    return ({
       sid: staticId++,
       id: user.id,
       name: `${user.first_name} ${user.last_name}`,
@@ -184,37 +149,65 @@ const Contacts = () => {
       date_joined: splitDateTime[0], // Extracting the date part
       username: user.username,
       is_active: user.is_active,
-      is_staff: user.is_staff,
-      // ... other properties based on transformation
-    };
+      is_staff: Boolean(user.is_staff),
 
-  });
-  console.log("KEYYYYYY", transformedData.id)
-  let i = transformedData
-  transformedData.forEach((user) => {
-    // approveUser(user.id);
-    console.log("Aprove-----------", user.id)
+    });
   });
 
-  console.log("vgvggvvg", i)
+  const isStaff = transformedData.some((user) => user.is_staff);
+  console.log("isStaff", isStaff);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+    UpdateForm()
+  };
 
-  // transformedData.map((user) => {
-  //   approveUser(user.id);
-  //   console.log("Aprove-----------",user.id)
-  // });
+  // const ShowUpdateUser =  async(id) => {
+  //   return (
+  //     <React.Fragment>
 
-  // for (let i = 0; i < transformedData.length; i++) {
-  //   approveUser(transformedData[i].id);
-  //   // console.log("Approve-----------", transformedData[i].id);
-
+  //       <Dialog open={open} onClose={handleClose}>
+  //         <DialogTitle>Update User</DialogTitle>
+  //         <DialogContent>
+  //           <DialogContentText>
+  //             To update user, please select the user and click on update button.
+  //           </DialogContentText>
+  //         </DialogContent>
+  //         <DialogActions>
+  //           <Button onClick={handleClose}>Cancel</Button>
+  //           <Button onClick={handleClickOpen}>Update</Button>
+  //         </DialogActions>
+  //       </Dialog>
+  //     </React.Fragment>
+  //   );
   // }
-
-
-
-  // console.log("CCCCCCCCCCC",transformedData)
-
-
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+  // const ShowUpdateUser = (uid) => {
+  //   console.log("Update button clicked for user ID:", uid);
+  //   setOpen(true);
+  //   return (
+  //     <Dialog open={open} onClose={handleClose}>
+  //       <DialogTitle>Update User</DialogTitle>
+  //       <DialogContent>
+  //         <DialogContentText>
+  //           To update user, please select the user and click on update button.
+  //         </DialogContentText>
+  //       </DialogContent>
+  //       <DialogActions>
+  //         <Button onClick={handleClose}>Cancel</Button>
+  //         <Button onClick={handleClickOpen}>Update</Button>
+  //       </DialogActions>
+  //     </Dialog>
+  //   )
+  // }
+  const handleClose = () => {
+    setOpen(false);
+  };
 
 
 
@@ -243,87 +236,100 @@ const Contacts = () => {
       field: "is_active",
       headerName: "Active",
       flex: 1,
-      renderCell: ({ row: { id } }) => {
-
-
-        // const handleActiveClick = async (userId) => {
-        //   try {
-        //     console.log('Active button clicked for user ID:', userId);
-        //     const response = await fetch(`http://127.0.0.1:8000/api/user/userApproval/${userId}`, {
-        //       method: 'POST',
-        //       headers: {
-        //         'Content-Type': 'application/json',
-        //         Authorization: `Bearer ${authToken}`, // Include the authorization header
-        //         // Add any additional headers if required
-        //       },
-        //       // Additional headers or body data if required
-        //     });
-
-        //     if (!response.ok) {
-        //       throw new Error('Failed to fetch users');
-        //     }
-
-        //     console.log(response); // Logging the raw response object
-        //     const dataaa = await response.json();
-        //     console.log('bbbbbbbbbb', dataaa); // Logging the parsed JSON data
-        //   } catch (error) {
-        //     console.error('Error:', error);
-        //     // Handle errors if the API call fails
-        //   }
-        // };
-
-
-
-        // console.log("QWERTYUI",authToken)
-        // const YourComponent = ({ authToken }) => {
-        // const handleActiveClick = async (userId) => {
-        //   try {
-        //     console.log('Active button clicked for user ID:', userId);
-        //     const response = await fetch(`http://127.0.0.1:8000/api/user/userApproval/${userId}`, {
-        //       method: 'POST',
-        //       headers: {
-        //         'Content-Type': 'application/json',
-        //         Authorization: `Bearer ${authToken}`,
-        //       },
-        //       // Additional headers or body data if required
-        //     });
-
-        //     if (!response.ok) {
-        //       throw new Error('Failed to fetch users');
-        //     }
-
-        //     const data = await response.json();
-        //     console.log('bbbbbbbbbb', data);
-        //   } catch (error) {
-        //     console.error('Error:', error);
-        //     // Handle errors if the API call fails
-        //   }
-        // };
-
-
-        // } 
-
-        const handleInactiveClick = (userId) => {
-          // Implement your logic here using the userId
-          console.log('Inactive button clicked for user ID:', userId);
-          // Perform actions for inactivation, etc.
-        };
-
+      renderCell: ({ row: { id, is_active } }) => {
         return (
+          <div>
+            {is_active ? (
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: colors.greenAccent[600],
+                  color: 'white'
+                }}
 
-          <div >
-            <Button variant="contained" size="small"
-              onClick={() => handleActiveClick(id)}
-            // onClick={(userId) => approveUser()}
-            >
-              Active
-            </Button>
-            <Button variant="contained" size="small" style={{ marginLeft: '10%' }}>
-              InActive
-            </Button>
+              >
+                Active
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: 'red',
+                  color: 'white'
+                }}
+                onClick={() => { handleActiveClick(id) }}
+              >
+                Inactive
+              </Button>
+            )}
           </div>
-
-        )
+        );
+      }
+    },
+    {
+      // field: "is_staff",
+      headerName: "Update",
+      flex: 1,
+      renderCell: ({ row: { id } }) => {
+        return (
+          <div>
+            {/* <Dialog open={open} keepMounted onClose={handleClose}  style={{ width: 500, height: 500 }}  >
+                <DialogTitle>Update User</DialogTitle>
+                <DialogContent>
+                  <DialogContentText><h1>hello</h1> </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={handleClickOpen}>Update</Button>
+                </DialogActions>
+                </Dialog> */}
+            <React.Fragment>
+              {/* <Button variant="outlined" onClick={handleClickOpen}>
+                Open alert dialog
+              </Button> */}
+              <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#009efa",
+                color: 'white'
+              }}
+              onClick={() => { handleClickOpen(id) }}
+            >
+              Update
+            </Button>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+              >
+                <DialogTitle id="alert-dialog-title" >
+                  {"Use Google's location service?"}
+                </DialogTitle>
+                <DialogContent >
+                  <DialogContentText id="alert-dialog-description">
+                    Let Google help apps determine location. This means sending anonymous
+                    location data to Google, even when no apps are running.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Disagree</Button>
+                  <Button onClick={handleClose} autoFocus>
+                    Agree
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </React.Fragment>
+            {/* <Button
+                variant="contained"
+                style={{
+                  backgroundColor: 'red',
+                  color: 'white'
+                }}
+                onClick={() => { handleActiveClick(id) }}
+              >
+                Inactive
+              </Button> */}
+          </div >
+        );
       }
     },
     {
@@ -334,15 +340,18 @@ const Contacts = () => {
   ];
 
   return (
-    <Box m="20px">
+
+    <Box m="20px" >
       <Header
         title="CONTACTS"
         subtitle="List of Contacts for Future Reference"
       />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
+      <Box 
+        // m="40px 0 0 0"
+        height="68vh"
         sx={{
+          // backgroundColor:'red',
+          
           "& .MuiDataGrid-root": {
             border: "none",
           },
@@ -361,6 +370,7 @@ const Contacts = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
+            // backgroundColor:'red',
             backgroundColor: colors.blueAccent[700],
           },
           "& .MuiCheckbox-root": {
@@ -372,9 +382,9 @@ const Contacts = () => {
         }}
       >
 
-        <DataGrid
+        <DataGrid 
           rows={transformedData}
-
+    
           columns={columns}
           components={{ Toolbar: GridToolbar }}
         />

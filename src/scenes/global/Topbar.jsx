@@ -37,8 +37,26 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
   const { logoutUser } = useContext(AuthContext);
 
+  let token ,username , name
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const value = localStorage.getItem(key);
+    console.log(`${key}: ${value}`);
+
+    const parsedData = JSON.parse(value);  // Parse the JSON string
+    token = parsedData.data.token;
+    name =  parsedData.data.first_name + " " + parsedData.data.last_name;
+    username  = parsedData.data.username;
+    console.log("Token:", name);
+  }
+  const authToken = token
+  const userName = username
+  const Name = name
+
+
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box display="flex" justifyContent="space-between"   >
       {/* SEARCH BAR */}
       <Box
         display="flex"
@@ -52,7 +70,7 @@ const Topbar = () => {
       </Box>
 
       {/* ICONS */}
-      <Box display="flex">
+      <Box display="flex" sx={{ marginTop:'2%',marginRight:'2%'}}   >
         {/* <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />
@@ -73,8 +91,9 @@ const Topbar = () => {
           <PersonPinOutlinedIcon />
         </IconButton> */}
 
-        <div>
-          <Button
+        <div  >
+          <Button 
+
             id="basic-button"
             aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
@@ -82,7 +101,7 @@ const Topbar = () => {
             onClick={handleClick}
             className="top-right-button"
           >
-            Youtuber Name <ArrowDropDownCircle></ArrowDropDownCircle>
+            {Name} <ArrowDropDownCircle></ArrowDropDownCircle>
           </Button>
           <Menu
             id="basic-menu"

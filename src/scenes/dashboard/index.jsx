@@ -1,9 +1,9 @@
-import { Box,  IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 
-
+import Skeleton from '@mui/material/Skeleton';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import Header from "../../components/Header";
@@ -16,15 +16,22 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import { useState, useEffect } from "react";
+import './continuedescription.css';
+import UpdateForm from "../contacts/UpdateForm";
+// import UpdateForm from "./UpdateForm";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [ videoRevenue , setVideoRevenue] = useState("")
+  const [latestVideo, setLatestVideo] = useState([]);
+
   const [totalEarning, setTotalEarning] = useState(0);
+  const [Loading, setLoading] = useState({
+    api1: true,
+    api2: true,
+  })
 
   let token
 
@@ -35,81 +42,21 @@ const Dashboard = () => {
 
     const parsedData = JSON.parse(value);  // Parse the JSON string
     token = parsedData.data.token;
-    console.log("Token:", token);
+    // staff = parsedData.data.is_staff;
+    console.log("token:", token);
   }
   const authToken = token
-  console.log("TTTTTToken",authToken)
+  // const isStaff = staff
+  console.log("TTTTTToken", authToken)
 
-  // useEffect(() => {
-  //   const fetchAllUsers = async () => {
-  //     // alert("11111")
-  //     try {
-  //       // Fetch video revenue data
-  //       const videoRevenueResponse = await fetch('http://127.0.0.1:8000/api/user/getVideoRevenue', {
-      
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${authToken}`, // Include the authorization header
-  //           // Add any additional headers if required
-  //         },
-  //       });
-  
-  //       if (!videoRevenueResponse.ok) {
-  //         throw new Error('Failed to fetch video revenue data');
-  //       }
-  //       alert(1)
-  
-  //       const videoRevenueData = await videoRevenueResponse.json();
-  //       console.log("Revenue",videoRevenueData)
-  //       setVideoRevenue(videoRevenueData);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       setError(error.message);
-  //       setIsLoading(false);
-  //     }
-  //   };
-  
-  //   fetchAllUsers();
-  // }, [authToken]); // Include authToken as a dependency if it might change and cause a re-fetch
 
-  // useEffect(() => {
-  //   const fetchAllUsers = async () => {
-  //     setIsLoading(true); 
-  //     // alert("11111")
-  //     try {
-  //       // Fetch video revenue data
-  //       const videoRevenueResponse = await fetch('http://127.0.0.1:8000/api/user/getVideoRevenue', {
-  
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${authToken}`, // Correct syntax for template literal
-  //           // Add any additional headers if required
-  //         },
-  //       });
-  
-  //       if (!videoRevenueResponse.ok) {
-  //         throw new Error('Failed to fetch video revenue data');
-  //       }
-  //       alert(1)
-  
-  //       const videoRevenueData = await videoRevenueResponse.json();
-  //       console.log("Revenue", videoRevenueData)
-  //       setVideoRevenue(videoRevenueData);
-  //     } catch (error) {
-  //       setError(error.message);
-  //     } finally {
-  //       setIsLoading(false); // Always set loading state to false, even in case of errors
-  //     }
-  //   };
-  
-  //   fetchAllUsers();
-  // }, [authToken]); // Include authToken as a dependency if it might change and cause a re-fetch
-
-  useEffect(() => {
   const fetchAllUsers = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    setLoading(prevLoading => ({
+      ...prevLoading,
+      api1: true
+    }));
+
 
     try {
       const videoRevenueResponse = await fetch('http://127.0.0.1:8000/api/user/getVideoRevenue', {
@@ -130,57 +77,93 @@ const Dashboard = () => {
       const videoRevenueData = await videoRevenueResponse.json();
       console.log('Revenue data received:', videoRevenueData);
 
-      setVideoRevenue(videoRevenueData);
+      // setVideoRevenue(videoRevenueData);
+      const getData = (videoRevenue, field) => {
+        if (videoRevenue && videoRevenue.data && videoRevenue.data[field]) {
+          return parseFloat(videoRevenue.data[field]).toFixed(2);
+        }
+        return 0; // Return 0 if data is not available
+      };
+
+      // Fetch total earning and set it in the state
+      const totalEarning = getData(videoRevenueData, 'total_earning');
+      setTotalEarning(totalEarning);
+      console.log("Total Earning", totalEarning)
+      // dispatch({ type: "SET_TOTAL_EARNING", payload: totalEarning });
     } catch (error) {
       setError(error.message);
     } finally {
-      setIsLoading(false);
+      setLoading(prevLoading => ({
+        ...prevLoading,
+        api1: false
+      }));
     }
   };
 
-  fetchAllUsers();
-}, [authToken]);
+  const fetchAllLatestVideo = async () => {
+    // setIsLoading(true);
+    setLoading(prevLoading => ({
+      ...prevLoading,
+      api2: true
+    }));
 
-// let te = 0; // Initialize te as a global variable
 
-// const TotalEarning = () => {
-//   te = videoRevenue.data.total_earning;
-//   return te; // Return the value of te from the function
-// };
+    try {
+      const LatestvideoResponse = await fetch('http://127.0.0.1:8000/api/user/getlateastVideo', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
 
-// // Call TotalEarning function to get the value of te
-// const Total = TotalEarning();
+      if (!LatestvideoResponse.ok) {
+        throw new Error('Failed to fetch video revenue data');
+      }
 
-useEffect(() => {
-  // Simulating data fetching or defining videoRevenue object
-  // const videoRevenue = {
-  //   data: {
-  //     total_earning: videoRevenue.data.total_earning // Example value, replace this with your actual data
-  //   }
-  // };
 
-  // Function to retrieve total earnings
-  const getTotalEarning = (videoRevenue) => {
-    if (videoRevenue && videoRevenue.data && videoRevenue.data.total_earning) {
-      return videoRevenue.data.total_earning;
+
+      const LatestvideoData = await LatestvideoResponse.json();
+      console.log('LatestVideo data received:', LatestvideoData);
+      setLatestVideo(LatestvideoData)
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(prevLoading => ({
+        ...prevLoading,
+        api2: false
+      }));
     }
-    // return 0; // Return 0 if data is not available
   };
 
-  // Fetch total earning and set it in the state
-  const total = getTotalEarning(videoRevenue);
-  setTotalEarning(total);
-}, []); // Run once on component mount
+  useEffect(() => {
+    fetchAllUsers();
+    fetchAllLatestVideo();
+  }, [authToken]);
+  console.log("Latest Video", latestVideo)
 
-  
+
 
   return (
-    <Box m="20px">
-      {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+    <Box sx={{ position: 'fixed', height: 'calc(100vh - 20px)' }} >
+      <Box sx={{
+        m: '10px 10px 10px 10px',
+        paddingTop: '60px', // Adjust this value according to your header's height
+        overflowY: 'auto',
+        height: '100%', // Fill the remaining height of the viewport
+        boxSizing: 'border-box',
+        scrollbarWidth: 'none', /* Firefox */
+        '&::-webkit-scrollbar': {
+          display: 'none', /* Chrome, Safari */
+        },
+      }}  >
+        {/* HEADER */}
+        <Box
 
-        {/* <Box>
+          display="flex" justifyContent="space-between" alignItems="center">
+          <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+
+          {/* <Box>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -194,219 +177,243 @@ useEffect(() => {
             Download Reports
           </Button>
         </Box> */}
-      </Box>
-
-      {/* GRID & CHARTS */}
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
-      >
-        {/* ROW 1 */}
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            // title={`Rs. ${Total}`}
-            title={`Rs. ${totalEarning}`}
-            subtitle="Earnings"
-            progress="0.15"
-            increase="+4%"
-            icon={
-              <CurrencyRupeeIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="431,225"
-            subtitle="Views"
-            progress="0.50"
-            increase="+21%"
-            icon={
-              <RemoveRedEyeIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="32,441"
-            subtitle="Followers"
-            progress="0.30"
-            increase="+5%"
-            icon={
-              <PersonAddIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="5,134"
-            subtitle="Videos"
-            progress="0.80"
-            increase="+43%"
-            icon={
-              <OndemandVideoIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
         </Box>
 
-        {/* ROW 2 */}
+        {/* GRID & CHARTS */}
         <Box
-          gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          gridAutoRows="140px"
+          gap="20px"
         >
-          <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box>
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
-                Revenue Generated
-              </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
-                $59,342.32
-              </Typography>
-            </Box>
-            <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
-              </IconButton>
-            </Box>
-          </Box>
-          <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
-          </Box>
-        </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          overflow="auto"
-        >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            borderBottom={`4px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
-            p="15px"
-          >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Top Performing Videos
-            </Typography>
-          </Box>
-          {mockTransactions.map((transaction, i) => (
+          {/* ROW 1 */}
+          {!Loading.api1 ? (
             <Box
-              key={`${transaction.txId}-${i}`}
+              gridColumn="span 3"
+              backgroundColor={colors.primary[400]}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <StatBox
+                title={`${totalEarning}`}
+                subtitle="Total Earning"
+                progress="0.00"
+                increase="+0%"
+                icon={
+                  <CurrencyRupeeIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                  />
+                }
+              />
+            </Box>
+          ) : (<div style={{ marginRight: '10px', marginBottom: '10px', flexDirection: "row", backgroundColor: '{colors.primary[400]}' }}>
+            <Skeleton variant="rectangular" width={200} height={140} />
+          </div>)}
+
+          <Box
+            gridColumn="span 3"
+            backgroundColor={colors.primary[400]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <StatBox
+              title="431,225"
+              subtitle="Views"
+              progress="0.50"
+              increase="+21%"
+              icon={
+                <RemoveRedEyeIcon
+                  sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                />
+              }
+            />
+          </Box>
+          <Box
+            gridColumn="span 3"
+            backgroundColor={colors.primary[400]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <StatBox
+              title="32,441"
+              subtitle="Followers"
+              progress="0.30"
+              increase="+5%"
+              icon={
+                <PersonAddIcon
+                  sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                />
+              }
+            />
+          </Box>
+          <Box
+            gridColumn="span 3"
+            backgroundColor={colors.primary[400]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <StatBox
+              title="5,134"
+              subtitle="Videos"
+              progress="0.80"
+              increase="+43%"
+              icon={
+                <OndemandVideoIcon
+                  sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                />
+              }
+            />
+          </Box>
+
+          {/* ROW 2 */}
+          <Box
+            gridColumn="span 8"
+            gridRow="span 2"
+            backgroundColor={colors.primary[400]}
+          >
+            <Box
+              mt="25px"
+              p="0 30px"
+              display="flex "
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  fontWeight="600"
+                  color={colors.grey[100]}
+                >
+                  Revenue Generated
+                </Typography>
+                <Typography
+                  variant="h3"
+                  fontWeight="bold"
+                  color={colors.greenAccent[500]}
+                >
+                  $59,342.32
+                </Typography>
+              </Box>
+              <Box>
+                <IconButton>
+                  <DownloadOutlinedIcon
+                    sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
+                  />
+                </IconButton>
+              </Box>
+            </Box>
+            <Box height="250px" m="-20px 0 0 0">
+              <LineChart isDashboard={true} />
+            </Box>
+          </Box>
+          <Box
+            gridColumn="span 4"
+            gridRow="span 2"
+            backgroundColor={colors.primary[400]}
+            overflow="auto"
+          >
+            <Box
               display="flex"
               justifyContent="space-between"
               alignItems="center"
               borderBottom={`4px solid ${colors.primary[500]}`}
+              colors={colors.grey[100]}
               p="15px"
             >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
-                  Video Name
-                </Typography>
-              
-              </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
-              <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-               Open Video
-              </Box>
+              <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+                Top Performing Videos
+              </Typography>
             </Box>
-          ))}
-        </Box>
+            <Box>
+              {latestVideo && latestVideo.data && latestVideo.data.map((video, i) => (
+                <Box
+                  key={`${video.id}-${i}`}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  borderBottom={`4px solid ${colors.primary[500]}`}
+                  p="15px"
+                >
+                  <Box>
+                    <div   >
+                      <Typography
+                        color={colors.greenAccent[500]}
+                        className="marquee-text"
+                        variant="h5"
+                        fontWeight="600"
 
-        {/* ROW 3 */}
-      
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ padding: "30px 30px 0 30px" }}
-          >
-            Audience Demographics
-          </Typography>
-          <Box height="250px" mt="-20px">
-            <BarChart isDashboard={true} />
+                      >
+                        {video.description}
+                      </Typography>
+                    </div>
+                    <Typography variant="body1">Views: {video.views}</Typography>
+                  </Box>
+                  {/* <Box color={colors.grey[100]}>
+            {new Date(video.updated_time).toLocaleString()}
+          </Box> */}
+                  <Box color={colors.grey[100]} style={{ marginRight: 10 }}>
+                    {new Date(video.updated_time).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                  </Box>
+
+                  <Box
+                    component="a"
+                    href={`YOUR_VIDEO_URL/${video.id}`} // Replace YOUR_VIDEO_URL with the actual video URL
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    backgroundColor={colors.greenAccent[500]}
+                    p="5px 10px"
+                    borderRadius="4px"
+                    color="white"
+                    // textDecoration="none"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    Open Video
+                  </Box>
+                </Box>
+              ))}
+            </Box>
           </Box>
-        </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ padding: "30px 30px 0 30px" }}
+
+          {/* ROW 3 */}
+
+          <Box
+            gridColumn="span 4"
+            gridRow="span 2"
+            backgroundColor={colors.primary[400]}
           >
-         Top 5 Cities
-          </Typography>
-          <Box height="250px" mt="-20px">
-            <BarChart isDashboard={true} />
+            <Typography
+              variant="h5"
+              fontWeight="600"
+              sx={{ padding: "30px 30px 0 30px" }}
+            >
+              Audience Demographics
+            </Typography>
+            <Box height="250px" mt="-20px">
+              <BarChart isDashboard={true} />
+            </Box>
           </Box>
+          <Box
+            gridColumn="span 4"
+            gridRow="span 2"
+            backgroundColor={colors.primary[400]}
+          >
+            <Typography
+              variant="h5"
+              fontWeight="600"
+              sx={{ padding: "30px 30px 0 30px" }}
+            >
+              Top 5 Cities
+            </Typography>
+            <Box height="250px" mt="-20px">
+              <BarChart isDashboard={true} />
+            </Box>
+          </Box>
+
         </Box>
- 
       </Box>
     </Box>
   );

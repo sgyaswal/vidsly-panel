@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState,useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
@@ -22,9 +22,11 @@ import ForgotPass from "./scenes/forgotPassword/forgotpass";
 import MyProfileForm from "./scenes/myprofile/myProfile";
 import ResetPassword from "./scenes/resetPassword/resetPassword";
 import { useMemo } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import NotFoundRoute from "./scenes/404/404";
 
 function App() {
+  const navigate = useNavigate();
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
    
@@ -45,6 +47,33 @@ function App() {
     );
   };
 
+  let token
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const value = localStorage.getItem(key);
+    // console.log(`${key}: ${value}`);
+
+    const parsedData = JSON.parse(value);  // Parse the JSON string
+    token = parsedData.data.token;
+    console.log("Token:", token);
+  }
+  const authToken = token
+
+  useEffect(() => {
+    // Verify user by token from localStorage
+    console.log("tokencvb",token)
+    if (!authToken) {
+      // Redirect to the login page if the token is not present
+      navigate('/login');
+    }
+    else{
+      navigate('/');
+    }
+    // You can perform further verification of the token here if needed
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

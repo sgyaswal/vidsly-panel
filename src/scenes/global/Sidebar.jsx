@@ -22,6 +22,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  
   return (
     <MenuItem
       active={selected === title}
@@ -43,9 +45,32 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
+  let token ,username , name , staff
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const value = localStorage.getItem(key);
+    console.log(`${key}: ${value}`);
+
+    const parsedData = JSON.parse(value);  // Parse the JSON string
+    token = parsedData.data.token;
+    name =  parsedData.data.first_name + " " + parsedData.data.last_name;
+    username  = parsedData.data.username;
+    staff = parsedData.data.is_staff;
+    console.log("Staff:", staff);
+  }
+  const authToken = token
+  const userName = username
+  const Name = name
+  const Staff = staff
+
+
   return (
     <Box
       sx={{
+        // position: "fixed",
+        
+        height: "100vh",
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
         },
@@ -63,7 +88,7 @@ const Sidebar = () => {
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <ProSidebar collapsed={isCollapsed} sx={{}}   >
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -109,7 +134,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Mathur
+                  {userName}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   Vidsly Platform
@@ -148,13 +173,16 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {Staff === true ? (
+              <Item
               title="User Information"
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+            ):(null)}
+            
             <Item
               title="Invoices Balances"
               to="/invoices"
