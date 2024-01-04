@@ -139,7 +139,7 @@ const Contacts = () => {
 
     try {
       console.log('Active button clicked for user ID:', usid,);
-      const response = await fetch(`http://127.0.0.1:8000/api/user/userApproval/${usid}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/userApproval/${usid}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ const Contacts = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/user/getAllUser', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/getAllUser`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -61,7 +61,7 @@ const Dashboard = () => {
 
 
     try {
-      const videoRevenueResponse = await fetch('http://127.0.0.1:8000/api/user/getVideoRevenue', {
+      const videoRevenueResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/getVideoRevenue`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ const Dashboard = () => {
 
 
     try {
-      const LatestvideoResponse = await fetch('http://127.0.0.1:8000/api/user/getlateastVideo', {
+      const LatestvideoResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/getlateastVideo`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
