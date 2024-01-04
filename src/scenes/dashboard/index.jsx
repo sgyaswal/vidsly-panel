@@ -18,6 +18,7 @@ import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import { useState, useEffect } from "react";
 import './continuedescription.css';
 import UpdateForm from "../contacts/UpdateForm";
+import Payment from "../Payments/index";
 // import UpdateForm from "./UpdateForm";
 
 const Dashboard = () => {
@@ -33,7 +34,7 @@ const Dashboard = () => {
     api2: true,
   })
 
-  let token
+  let token , staff
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -42,13 +43,14 @@ const Dashboard = () => {
 
     const parsedData = JSON.parse(value);  // Parse the JSON string
     token = parsedData.data.token;
+    staff = parsedData.data.is_staff;
     // staff = parsedData.data.is_staff;
     console.log("token:", token);
   }
   const authToken = token
+  const Staff = staff
   // const isStaff = staff
-  console.log("TTTTTToken", authToken)
-
+  
 
   const fetchAllUsers = async () => {
     // setIsLoading(true);
@@ -145,49 +147,75 @@ const Dashboard = () => {
 
 
   return (
+    <>
+        { Staff === true ? (<Payment/>):(
     <Box sx={{ position: 'fixed', height: 'calc(100vh - 20px)' }} >
-      <Box sx={{
-        m: '10px 10px 10px 10px',
-        paddingTop: '60px', // Adjust this value according to your header's height
-        overflowY: 'auto',
-        height: '100%', // Fill the remaining height of the viewport
-        boxSizing: 'border-box',
-        scrollbarWidth: 'none', /* Firefox */
-        '&::-webkit-scrollbar': {
-          display: 'none', /* Chrome, Safari */
-        },
-      }}  >
-        {/* HEADER */}
-        <Box
-
-          display="flex" justifyContent="space-between" alignItems="center">
-          <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
-          {/* <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
+  
+        <Box sx={{
+          m: '10px 10px 10px 10px',
+          paddingTop: '60px', // Adjust this value according to your header's height
+          overflowY: 'auto',
+          height: '100%', // Fill the remaining height of the viewport
+          boxSizing: 'border-box',
+          scrollbarWidth: 'none', /* Firefox */
+          '&::-webkit-scrollbar': {
+            display: 'none', /* Chrome, Safari */
+          },
+        }}  >
+          {/* HEADER */}
+          <Box
+  
+            display="flex" justifyContent="space-between" alignItems="center">
+            <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+  
+            {/* <Box>
+            <Button
+              sx={{
+                backgroundColor: colors.blueAccent[700],
+                color: colors.grey[100],
+                fontSize: "14px",
+                fontWeight: "bold",
+                padding: "10px 20px",
+              }}
+            >
+              <DownloadOutlinedIcon sx={{ mr: "10px" }} />
+              Download Reports
+            </Button>
+          </Box> */}
+          </Box>
+  
+          {/* GRID & CHARTS */}
+          <Box
+            display="grid"
+            gridTemplateColumns="repeat(12, 1fr)"
+            gridAutoRows="140px"
+            gap="20px"
           >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box> */}
-        </Box>
-
-        {/* GRID & CHARTS */}
-        <Box
-          display="grid"
-          gridTemplateColumns="repeat(12, 1fr)"
-          gridAutoRows="140px"
-          gap="20px"
-        >
-          {/* ROW 1 */}
-          {!Loading.api1 ? (
+            {/* ROW 1 */}
+            {!Loading.api1 ? (
+              <Box
+                gridColumn="span 3"
+                backgroundColor={colors.primary[400]}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <StatBox
+                  title={`${totalEarning}`}
+                  subtitle="Total Earning"
+                  progress="0.00"
+                  increase="+0%"
+                  icon={
+                    <CurrencyRupeeIcon
+                      sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                    />
+                  }
+                />
+              </Box>
+            ) : (<div style={{ marginRight: '10px', marginBottom: '10px', flexDirection: "row", backgroundColor: '{colors.primary[400]}' }}>
+              <Skeleton variant="rectangular" width={250} height={142} />
+            </div>)}
+  
             <Box
               gridColumn="span 3"
               backgroundColor={colors.primary[400]}
@@ -196,226 +224,208 @@ const Dashboard = () => {
               justifyContent="center"
             >
               <StatBox
-                title={`${totalEarning}`}
-                subtitle="Total Earning"
-                progress="0.00"
-                increase="+0%"
+                title="431,225"
+                subtitle="Views"
+                progress="0.50"
+                increase="+21%"
                 icon={
-                  <CurrencyRupeeIcon
+                  <RemoveRedEyeIcon
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
                   />
                 }
               />
             </Box>
-          ) : (<div style={{ marginRight: '10px', marginBottom: '10px', flexDirection: "row", backgroundColor: '{colors.primary[400]}' }}>
-            <Skeleton variant="rectangular" width={200} height={140} />
-          </div>)}
-
-          <Box
-            gridColumn="span 3"
-            backgroundColor={colors.primary[400]}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <StatBox
-              title="431,225"
-              subtitle="Views"
-              progress="0.50"
-              increase="+21%"
-              icon={
-                <RemoveRedEyeIcon
-                  sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                />
-              }
-            />
-          </Box>
-          <Box
-            gridColumn="span 3"
-            backgroundColor={colors.primary[400]}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <StatBox
-              title="32,441"
-              subtitle="Followers"
-              progress="0.30"
-              increase="+5%"
-              icon={
-                <PersonAddIcon
-                  sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                />
-              }
-            />
-          </Box>
-          <Box
-            gridColumn="span 3"
-            backgroundColor={colors.primary[400]}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <StatBox
-              title="5,134"
-              subtitle="Videos"
-              progress="0.80"
-              increase="+43%"
-              icon={
-                <OndemandVideoIcon
-                  sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                />
-              }
-            />
-          </Box>
-
-          {/* ROW 2 */}
-          <Box
-            gridColumn="span 8"
-            gridRow="span 2"
-            backgroundColor={colors.primary[400]}
-          >
             <Box
-              mt="25px"
-              p="0 30px"
-              display="flex "
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box>
-                <Typography
-                  variant="h5"
-                  fontWeight="600"
-                  color={colors.grey[100]}
-                >
-                  Revenue Generated
-                </Typography>
-                <Typography
-                  variant="h3"
-                  fontWeight="bold"
-                  color={colors.greenAccent[500]}
-                >
-                  $59,342.32
-                </Typography>
-              </Box>
-              <Box>
-                <IconButton>
-                  <DownloadOutlinedIcon
-                    sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                  />
-                </IconButton>
-              </Box>
-            </Box>
-            <Box height="250px" m="-20px 0 0 0">
-              <LineChart isDashboard={true} />
-            </Box>
-          </Box>
-          <Box
-            gridColumn="span 4"
-            gridRow="span 2"
-            backgroundColor={colors.primary[400]}
-            overflow="auto"
-          >
-            <Box
+              gridColumn="span 3"
+              backgroundColor={colors.primary[400]}
               display="flex"
-              justifyContent="space-between"
               alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              colors={colors.grey[100]}
-              p="15px"
+              justifyContent="center"
             >
-              <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                Top Performing Videos
-              </Typography>
+              <StatBox
+                title="32,441"
+                subtitle="Followers"
+                progress="0.30"
+                increase="+5%"
+                icon={
+                  <PersonAddIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                  />
+                }
+              />
             </Box>
-            <Box>
-              {latestVideo && latestVideo.data && latestVideo.data.map((video, i) => (
-                <Box
-                  key={`${video.id}-${i}`}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  borderBottom={`4px solid ${colors.primary[500]}`}
-                  p="15px"
-                >
-                  <Box>
-                    <div   >
-                      <Typography
-                        color={colors.greenAccent[500]}
-                        className="marquee-text"
-                        variant="h5"
-                        fontWeight="600"
-
-                      >
-                        {video.description}
-                      </Typography>
-                    </div>
-                    <Typography variant="body1">Views: {video.views}</Typography>
-                  </Box>
-                  {/* <Box color={colors.grey[100]}>
-            {new Date(video.updated_time).toLocaleString()}
-          </Box> */}
-                  <Box color={colors.grey[100]} style={{ marginRight: 10 }}>
-                    {new Date(video.updated_time).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
-                  </Box>
-
-                  <Box
-                    component="a"
-                    href={`YOUR_VIDEO_URL/${video.id}`} // Replace YOUR_VIDEO_URL with the actual video URL
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    backgroundColor={colors.greenAccent[500]}
-                    p="5px 10px"
-                    borderRadius="4px"
-                    color="white"
-                    // textDecoration="none"
-                    style={{ textDecoration: 'none' }}
+            <Box
+              gridColumn="span 3"
+              backgroundColor={colors.primary[400]}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <StatBox
+                title="5,134"
+                subtitle="Videos"
+                progress="0.80"
+                increase="+43%"
+                icon={
+                  <OndemandVideoIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                  />
+                }
+              />
+            </Box>
+  
+            {/* ROW 2 */}
+            <Box
+              gridColumn="span 8"
+              gridRow="span 2"
+              backgroundColor={colors.primary[400]}
+            >
+              <Box
+                mt="25px"
+                p="0 30px"
+                display="flex "
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Box>
+                  <Typography
+                    variant="h5"
+                    fontWeight="600"
+                    color={colors.grey[100]}
                   >
-                    Open Video
-                  </Box>
+                    Revenue Generated
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    fontWeight="bold"
+                    color={colors.greenAccent[500]}
+                  >
+                    $59,342.32
+                  </Typography>
                 </Box>
-              ))}
+                <Box>
+                  <IconButton>
+                    <DownloadOutlinedIcon
+                      sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
+                    />
+                  </IconButton>
+                </Box>
+              </Box>
+              <Box height="250px" m="-20px 0 0 0">
+                <LineChart isDashboard={true} />
+              </Box>
             </Box>
-          </Box>
-
-          {/* ROW 3 */}
-
-          <Box
-            gridColumn="span 4"
-            gridRow="span 2"
-            backgroundColor={colors.primary[400]}
-          >
-            <Typography
-              variant="h5"
-              fontWeight="600"
-              sx={{ padding: "30px 30px 0 30px" }}
+            <Box
+              gridColumn="span 4"
+              gridRow="span 2"
+              backgroundColor={colors.primary[400]}
+              overflow="auto"
             >
-              Audience Demographics
-            </Typography>
-            <Box height="250px" mt="-20px">
-              <BarChart isDashboard={true} />
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                borderBottom={`4px solid ${colors.primary[500]}`}
+                colors={colors.grey[100]}
+                p="15px"
+              >
+                <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+                  Latest 20 Videos
+                </Typography>
+              </Box>
+              <Box>
+                {latestVideo && latestVideo.data && latestVideo.data.map((video, i) => (
+                  <Box
+                    key={`${video.id}-${i}`}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    borderBottom={`4px solid ${colors.primary[500]}`}
+                    p="15px"
+                  >
+                    <Box>
+                      <div   >
+                        <Typography
+                          color={colors.greenAccent[500]}
+                          className="marquee-text"
+                          variant="h5"
+                          fontWeight="600"
+  
+                        >
+                          {video.description}
+                        </Typography>
+                      </div>
+                      <Typography variant="body1">Views: {video.views}</Typography>
+                    </Box>
+                    {/* <Box color={colors.grey[100]}>
+              {new Date(video.updated_time).toLocaleString()}
+            </Box> */}
+                    <Box color={colors.grey[100]} style={{ marginRight: 10 }}>
+                      {new Date(video.updated_time).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                    </Box>
+  
+                    <Box
+                      component="a"
+                      href={`YOUR_VIDEO_URL/${video.id}`} // Replace YOUR_VIDEO_URL with the actual video URL
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      backgroundColor={colors.greenAccent[500]}
+                      p="5px 10px"
+                      borderRadius="4px"
+                      color="white"
+                      // textDecoration="none"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      Open Video
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
             </Box>
-          </Box>
-          <Box
-            gridColumn="span 4"
-            gridRow="span 2"
-            backgroundColor={colors.primary[400]}
-          >
-            <Typography
-              variant="h5"
-              fontWeight="600"
-              sx={{ padding: "30px 30px 0 30px" }}
+  
+            {/* ROW 3 */}
+  
+            <Box
+              gridColumn="span 4"
+              gridRow="span 2"
+              backgroundColor={colors.primary[400]}
             >
-              Top 5 Cities
-            </Typography>
-            <Box height="250px" mt="-20px">
-              <BarChart isDashboard={true} />
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                sx={{ padding: "30px 30px 0 30px" }}
+              >
+                Audience Demographics
+              </Typography>
+              <Box height="250px" mt="-20px">
+                <BarChart isDashboard={true} />
+              </Box>
             </Box>
+            <Box
+              gridColumn="span 4"
+              gridRow="span 2"
+              backgroundColor={colors.primary[400]}
+            >
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                sx={{ padding: "30px 30px 0 30px" }}
+              >
+                Top 5 Cities
+              </Typography>
+              <Box height="250px" mt="-20px">
+                <BarChart isDashboard={true} />
+              </Box>
+            </Box>
+  
           </Box>
-
         </Box>
-      </Box>
+    
+      
     </Box>
+   
+    )} 
+     </>
   );
 };
 

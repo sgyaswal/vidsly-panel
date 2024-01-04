@@ -3,7 +3,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
-import { useTheme } from "@mui/material";
+import { useTheme,Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import * as React from 'react';
 import Button from '@mui/material/Button';
@@ -12,6 +12,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+// import UpdateForm from "./UpdateForm";
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import Form from 'react-bootstrap/Form';
+import TextField from '@mui/material/TextField';
 import UpdateForm from "./UpdateForm";
 
 const Contacts = () => {
@@ -26,14 +31,96 @@ const Contacts = () => {
   const [Loading, setLoading] = useState({
     api1: true,
   });
+  // const [open, setOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [updatefirstName, setUpdateFirstName] = useState("");
+  const [updateLastName, setUpdateLastName] = useState("");
+  const [updateEmail, setUpdateEmail] = useState("");
+  const [updateUsername, setUpdateUsername] = useState("");
+
+
+
+
 
 
   //   const auttok = localStorage.getItem('data')
   // console.log(JSON.stringify(auttok))
 
-  let token 
-  
+  const PopupContent = ({ onClose }) => {
+    return (
+      <Box
+        sx={{
+          width: '700px',
+          height: '350px',
+          backgroundColor: '#fff',
+          color: '#000',
+          padding: '20px',
+          borderRadius: '8px',
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+        }}
+      >
+        {/* Content inside the popup */}
+       
+        <Form>
+        <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',fontSize:'bold' }}  >
+            <Typography variant="h3" gutterBottom>
+              Bank Details
+            </Typography>
+          </Grid>
+
+
+          <div className='row'>
+            <Form.Group className="col-md-6" controlId="formBasicPassword"   >
+              <Form.Label>First name </Form.Label>
+              <Form.Control type="text" placeholder="First Name" defaultValue={updatefirstName} />
+            </Form.Group>
+            <Form.Group className="col-md-6" controlId="formBasicPassword">
+              <Form.Label>Last name</Form.Label>
+              <Form.Control type="text" placeholder="Last Name" defaultValue={updateLastName}/>
+            </Form.Group>
+          </div>
+          <div className='row'>
+            <Form.Group className="col-md-12" controlId="formBasicPassword"   >
+              <Form.Label>Username </Form.Label>
+              <Form.Control type="text" placeholder="Username" defaultValue={updateUsername}/>
+            </Form.Group>
+            
+          </div>
+
+          <Form.Group className="mb-3" controlId="formBasicEmail" >
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" defaultValue={updateEmail}/>
+           
+          </Form.Group>
+          {/* <Button variant="primary" type="submit">
+  Submit
+</Button> */}
+<Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+            <Button sx={{backgroundColor:'blue'}} variant='contained'   >Submit</Button>
+          </Grid>
+        </Form>
+
+
+        <Button variant="contained" onClick={onClose} style={{m:"10px 100px 0 10px"}}  >
+          Close
+        </Button>
+      </Box>
+    );
+  };
+
+
+
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  let token
+
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -137,13 +224,17 @@ const Contacts = () => {
 
   // console.log("helloo",users[0].id)
   let staticId = 1;
+  let setname
 
   const transformedData = users.data.map((user) => {
     const splitDateTime = user.date_joined.split("T");
+    setname = user.first_name
 
     return ({
       sid: staticId++,
       id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
       name: `${user.first_name} ${user.last_name}`,
       email: user.email,
       date_joined: splitDateTime[0], // Extracting the date part
@@ -153,62 +244,28 @@ const Contacts = () => {
 
     });
   });
-
   const isStaff = transformedData.some((user) => user.is_staff);
   console.log("isStaff", isStaff);
 
-  const handleClickOpen = () => {
+
+
+
+  const handleClickOpen = (id, first_name, last_name, email,username) => {
     setOpen(true);
-    UpdateForm()
+    console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuID:", id);
+    console.log("Update button clicked for user Name:", first_name);
+    setUpdateFirstName(first_name)
+    setUpdateEmail(email)
+    setUpdateLastName(last_name)
+    setUpdateUsername(username)
+    console.log("updatefirstName:", updatefirstName)
+    
+    // UpdateForm({first_name})
+  
   };
 
-  // const ShowUpdateUser =  async(id) => {
-  //   return (
-  //     <React.Fragment>
 
-  //       <Dialog open={open} onClose={handleClose}>
-  //         <DialogTitle>Update User</DialogTitle>
-  //         <DialogContent>
-  //           <DialogContentText>
-  //             To update user, please select the user and click on update button.
-  //           </DialogContentText>
-  //         </DialogContent>
-  //         <DialogActions>
-  //           <Button onClick={handleClose}>Cancel</Button>
-  //           <Button onClick={handleClickOpen}>Update</Button>
-  //         </DialogActions>
-  //       </Dialog>
-  //     </React.Fragment>
-  //   );
-  // }
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-  // const ShowUpdateUser = (uid) => {
-  //   console.log("Update button clicked for user ID:", uid);
-  //   setOpen(true);
-  //   return (
-  //     <Dialog open={open} onClose={handleClose}>
-  //       <DialogTitle>Update User</DialogTitle>
-  //       <DialogContent>
-  //         <DialogContentText>
-  //           To update user, please select the user and click on update button.
-  //         </DialogContentText>
-  //       </DialogContent>
-  //       <DialogActions>
-  //         <Button onClick={handleClose}>Cancel</Button>
-  //         <Button onClick={handleClickOpen}>Update</Button>
-  //       </DialogActions>
-  //     </Dialog>
-  //   )
-  // }
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  
 
 
 
@@ -270,65 +327,36 @@ const Contacts = () => {
       // field: "is_staff",
       headerName: "Update",
       flex: 1,
-      renderCell: ({ row: { id } }) => {
+      renderCell: ({ row: { id, first_name, last_name, email,username } }) => {
+
+
         return (
+
+
+
           <div>
-            {/* <Dialog open={open} keepMounted onClose={handleClose}  style={{ width: 500, height: 500 }}  >
-                <DialogTitle>Update User</DialogTitle>
-                <DialogContent>
-                  <DialogContentText><h1>hello</h1> </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>Cancel</Button>
-                  <Button onClick={handleClickOpen}>Update</Button>
-                </DialogActions>
-                </Dialog> */}
-            <React.Fragment>
-              {/* <Button variant="outlined" onClick={handleClickOpen}>
-                Open alert dialog
-              </Button> */}
-              <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#009efa",
-                color: 'white'
-              }}
-              onClick={() => { handleClickOpen(id) }}
-            >
-              Update
+            <Button variant="contained" onClick={() => handleClickOpen(id, first_name,last_name , email, username)}>
+              UPDATE
             </Button>
-              <Dialog
-                open={open}
-                onClose={handleClose}
-              >
-                <DialogTitle id="alert-dialog-title" >
-                  {"Use Google's location service?"}
-                </DialogTitle>
-                <DialogContent >
-                  <DialogContentText id="alert-dialog-description">
-                    Let Google help apps determine location. This means sending anonymous
-                    location data to Google, even when no apps are running.
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>Disagree</Button>
-                  <Button onClick={handleClose} autoFocus>
-                    Agree
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </React.Fragment>
-            {/* <Button
-                variant="contained"
-                style={{
-                  backgroundColor: 'red',
-                  color: 'white'
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  outline: 'none',
                 }}
-                onClick={() => { handleActiveClick(id) }}
               >
-                Inactive
-              </Button> */}
-          </div >
+                <PopupContent id={id} first_name={first_name} onClose={handleClose} />
+              </Box>
+            </Modal>
+          </div>
         );
       }
     },
@@ -346,12 +374,12 @@ const Contacts = () => {
         title="CONTACTS"
         subtitle="List of Contacts for Future Reference"
       />
-      <Box 
+      <Box
         // m="40px 0 0 0"
         height="68vh"
         sx={{
           // backgroundColor:'red',
-          
+
           "& .MuiDataGrid-root": {
             border: "none",
           },
@@ -382,9 +410,9 @@ const Contacts = () => {
         }}
       >
 
-        <DataGrid 
+        <DataGrid
           rows={transformedData}
-    
+
           columns={columns}
           components={{ Toolbar: GridToolbar }}
         />

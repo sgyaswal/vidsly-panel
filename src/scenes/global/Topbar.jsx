@@ -101,7 +101,7 @@ const Topbar = () => {
             onClick={handleClick}
             className="top-right-button"
           >
-            {Name} <ArrowDropDownCircle></ArrowDropDownCircle>
+            {userName} <ArrowDropDownCircle></ArrowDropDownCircle>
           </Button>
           <Menu
             id="basic-menu"

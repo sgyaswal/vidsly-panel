@@ -7,22 +7,103 @@ import { tokens } from "../../theme";
 // import PersonAddIcon from "@mui/icons-material/PersonAdd";
 // import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
+import * as React from 'react';
 import StatBox from "../../components/StatBox";
 import './payments.css';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import Modal from '@mui/material/Modal';
+import Form from 'react-bootstrap/Form';
+import Button from '@mui/material/Button';
+import NetBankingForm from "./netBankingwidraw";
 
 const Payments = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [open, setOpen] = React.useState(false);
+
+  let token , staff
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const value = localStorage.getItem(key);
+    // console.log(`${key}: ${value}`);
+
+    const parsedData = JSON.parse(value);  // Parse the JSON string
+    token = parsedData.data.token;
+    staff = parsedData.data.is_staff;
+    // staff = parsedData.data.is_staff;
+    console.log("token:", token);
+  }
+  const authToken = token
+  const Staff = staff
+
+
+
+  const PopupContent = ({ onClose }, { first_name }) => {
+    console.log("Update button clicked for zxcvbnm, Name:", first_name);
+    return (
+      <div>
+         {Staff === true ? (null):(
+        <Box
+        sx={{
+          width: '650px',
+          height: '400px',
+          // backgroundColor: '#fff',
+          backgroundColor: "#fff",
+          color: '#000',
+          padding: '20px',
+          borderRadius: '8px',
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+        }}
+      >
+        {/* Content inside the popup */}
+      
+        <NetBankingForm />
+
+        <Button variant="contained" onClick={onClose}>
+          Close
+        </Button>
+      </Box>
+
+        )}
+      </div>
+     
+      
+    );
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <div>
+    <div >
 
   
-    <Box m="20px">
+    {/* <Box m="20px"> */}
+    <Box sx={{ position: 'fixed', height: 'calc(100vh - 20px)' , width:'80vw'  }} >
+  
+    <Box sx={{
+          m: '10px 10px 10px 10px',
+          paddingTop: '60px', // Adjust this value according to your header's height
+          overflowY: 'auto',
+          height: '100%', // Fill the remaining height of the viewport
+          boxSizing: 'border-box',
+          scrollbarWidth: 'none', /* Firefox */
+          '&::-webkit-scrollbar': {
+            display: 'none', /* Chrome, Safari */
+          },
+          
+        }}  >
+
+
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="PAYMENTS AND EARNINGS" subtitle="Welcome to your payments and earnings" />
@@ -114,22 +195,46 @@ const Payments = () => {
             }
           />
         </Box>
+        
       
        
 
      
      
- 
-      </Box>
-    </Box>
+         </Box>
+     
 
     <section className="withdrawl-section">
       <div>
         <h3>Withdrawl</h3>
       </div>
       <div className="button-flexing">
-        <div>
-          <button className="withdrawl-button">Bank Transfer</button>
+        <div style={{backgroundColor: "#19875"}}>
+          {Staff === true ? (
+            <button className="withdrawl-button" >Bank Transfer</button>
+          ):(
+            <button className="withdrawl-button" onClick={handleOpen} >Bank Transfer</button>
+          )}
+          
+          <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  outline: 'none',
+                  // background: "#198754"
+                }}
+              >
+                <PopupContent onClose={handleClose} />
+              </Box>
+            </Modal>
         </div>
         <div>
           <button className="withdrawl-button">Transfer to cart</button>
@@ -196,6 +301,8 @@ const Payments = () => {
   </tr>
 </table>
 </section>
+</Box>
+    </Box>
     </div>
   );
 };

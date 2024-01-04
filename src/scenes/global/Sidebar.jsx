@@ -134,7 +134,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  {userName}
+                  {Name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   Vidsly Platform
@@ -144,13 +144,16 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Dashboard"
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {Staff === true ? (null):(
+               <Item
+               title="Dashboard"
+               to="/"
+               icon={<HomeOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+            )}
+           
 
             <Item
               title="Payments"
