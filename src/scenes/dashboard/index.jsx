@@ -366,7 +366,7 @@ const Dashboard = () => {
   
                     <Box
                       component="a"
-                      href={`YOUR_VIDEO_URL/${video.id}`} // Replace YOUR_VIDEO_URL with the actual video URL
+                      href={`https://www.facebook.com${video?.permalink_url}`} // Replace YOUR_VIDEO_URL with the actual video URL
                       target="_blank"
                       rel="noopener noreferrer"
                       backgroundColor={colors.greenAccent[500]}
