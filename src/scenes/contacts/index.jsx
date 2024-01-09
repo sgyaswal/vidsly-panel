@@ -3,7 +3,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
-import { useTheme,Grid } from "@mui/material";
+import { useTheme, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import * as React from 'react';
 import Button from '@mui/material/Button';
@@ -60,11 +60,11 @@ const Contacts = () => {
         }}
       >
         {/* Content inside the popup */}
-       
+
         <Form>
-        <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',fontSize:'bold' }}  >
+          <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 'bold' }}  >
             <Typography variant="h3" gutterBottom>
-              Bank Details
+              Update Details
             </Typography>
           </Grid>
 
@@ -76,32 +76,36 @@ const Contacts = () => {
             </Form.Group>
             <Form.Group className="col-md-6" controlId="formBasicPassword">
               <Form.Label>Last name</Form.Label>
-              <Form.Control type="text" placeholder="Last Name" defaultValue={updateLastName}/>
+              <Form.Control type="text" placeholder="Last Name" defaultValue={updateLastName} />
             </Form.Group>
           </div>
           <div className='row'>
-            <Form.Group className="col-md-12" controlId="formBasicPassword"   >
+            <Form.Group className="col-md-6" controlId="formBasicPassword"   >
               <Form.Label>Username </Form.Label>
-              <Form.Control type="text" placeholder="Username" defaultValue={updateUsername}/>
+              <Form.Control type="text" placeholder="Username" defaultValue={updateUsername} />
             </Form.Group>
-            
+            <Form.Group controlId="formFile" className="col-md-6">
+              <Form.Label>Update Inage</Form.Label>
+              <Form.Control type="file" />
+            </Form.Group>
+
           </div>
 
           <Form.Group className="mb-3" controlId="formBasicEmail" >
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" defaultValue={updateEmail}/>
-           
+            <Form.Control type="email" placeholder="Enter email" defaultValue={updateEmail} />
+
           </Form.Group>
           {/* <Button variant="primary" type="submit">
   Submit
 </Button> */}
-<Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
-            <Button sx={{backgroundColor:'blue'}} variant='contained'   >Submit</Button>
+          <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+            <Button sx={{ backgroundColor: 'blue' }} variant='contained'   >Submit</Button>
           </Grid>
         </Form>
 
 
-        <Button variant="contained" onClick={onClose} style={{m:"10px 100px 0 10px"}}  >
+        <Button variant="contained" onClick={onClose} style={{ m: "10px 100px 0 10px" }}  >
           Close
         </Button>
       </Box>
@@ -250,7 +254,7 @@ const Contacts = () => {
 
 
 
-  const handleClickOpen = (id, first_name, last_name, email,username) => {
+  const handleClickOpen = (id, first_name, last_name, email, username) => {
     setOpen(true);
     console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuID:", id);
     console.log("Update button clicked for user Name:", first_name);
@@ -259,13 +263,13 @@ const Contacts = () => {
     setUpdateLastName(last_name)
     setUpdateUsername(username)
     console.log("updatefirstName:", updatefirstName)
-    
+
     // UpdateForm({first_name})
-  
+
   };
 
 
-  
+
 
 
 
@@ -327,7 +331,7 @@ const Contacts = () => {
       // field: "is_staff",
       headerName: "Update",
       flex: 1,
-      renderCell: ({ row: { id, first_name, last_name, email,username } }) => {
+      renderCell: ({ row: { id, first_name, last_name, email, username } }) => {
 
 
         return (
@@ -335,7 +339,7 @@ const Contacts = () => {
 
 
           <div>
-            <Button variant="contained" onClick={() => handleClickOpen(id, first_name,last_name , email, username)}>
+            <Button variant="contained" onClick={() => handleClickOpen(id, first_name, last_name, email, username)}>
               UPDATE
             </Button>
             <Modal

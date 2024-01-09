@@ -46,6 +46,11 @@ function App() {
       typeof pattern === "string" ? path === pattern : pattern.test(path)
     );
   };
+   
+  const handleSignup = (e) => {
+    console.log("Signup clicked");
+    navigate('/signup');
+  }
 
   let token
 
@@ -63,7 +68,15 @@ function App() {
   useEffect(() => {
     // Verify user by token from localStorage
     console.log("tokencvb",token)
-    if (!authToken) {
+    if (window.location.pathname.includes('/signup')) {
+      // Redirect to the login page if the token is not present and not navigating to signup
+      navigate('/signup');
+    }
+    else if (window.location.pathname.includes('/forgotpass')) {
+      // Redirect to the login page if the token is not present and not navigating to signup
+      navigate('/forgotpass');
+    }
+   else if (!authToken) {
       // Redirect to the login page if the token is not present
       navigate('/login');
     }
@@ -73,7 +86,7 @@ function App() {
     // You can perform further verification of the token here if needed
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authToken,navigate]);
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

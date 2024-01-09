@@ -1,20 +1,34 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import { Routes, Route, useNavigate } from "react-router-dom";
 // import jwtDecode from "jwt-decode";
 
 
 
 const Login = () => {
   const { loginUser } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const handleLogin = (e) => {
     e.preventDefault();
     loginUser(email, password);
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSignup = (e) => {
+    console.log("Signup clicked");
+    navigate('/signup');
+  }
 
   return (
     <div>
@@ -36,7 +50,7 @@ const Login = () => {
                   required
                 />
               </div>
-              <div className="form-row">
+              {/* <div className="form-row">
                 <input
                   type="password"
                   name="password"
@@ -47,6 +61,28 @@ const Login = () => {
                   placeholder="Enter Password"
                   required
                 />
+              </div> */}
+
+              <div className="form-row">
+                <div style={{display:'flex'}} >
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="additional"
+                  id="additional"
+                  placeholder="Enter Password"
+                  required
+                />
+                <div className="eye-icon" style={{marginTop:'5%'}} onClick={togglePasswordVisibility}>
+                  {showPassword ? (
+                    <VisibilityOffOutlinedIcon />
+                  ) : (
+                    <RemoveRedEyeOutlinedIcon />
+                  )}
+                </div>
+                </div>
               </div>
 
               <div className="form-checkbox-new">
@@ -70,11 +106,10 @@ const Login = () => {
                 <label className="container">
                   <p>
                     Don't have an account?{" "}
-                    <a href="/signup" className="text">
+                    <a href="/signup" onClick={handleSignup} className="text">
                       Signup Here
                     </a>
-                    .
-                  </p>
+                            </p>
                 </label>
               </div>
             </div>

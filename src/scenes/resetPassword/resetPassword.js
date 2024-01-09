@@ -29,7 +29,7 @@ const ResetPassword = () => {
     try {
       // Make API call to reset password endpoint using fetch
       const response = await fetch(
-        `http://127.0.0.1:8000/api/user/resetPassword/${uidb64}/${token}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/resetPassword/${uidb64}/${token}`,
         {
           method: "POST",
           headers: {

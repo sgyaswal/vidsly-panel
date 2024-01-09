@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -36,6 +36,8 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    
+
     // Basic form validation
     if (!isFormValid()) {
       setError("Please fill in all required fields correctly.");
@@ -44,7 +46,7 @@ const Signup = () => {
 
     // Make the API request
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/user/register", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,6 +85,19 @@ const Signup = () => {
       setError("An error occurred during signup");
     }
   };
+  // useEffect(() => {
+  //   // Prevent user from navigating back after reaching the signup page
+  //   window.history.pushState(null, null, window.location.href);
+  //   window.onpopstate = () => {
+  //     window.history.pushState(null, null, window.location.href);
+  //   };
+
+  //   return () => {
+  //     // Re-enable the back button when leaving the signup page
+  //     window.onpopstate = null;
+  //   };
+  // }, []);
+
 
   return (
     <div>
@@ -175,7 +190,7 @@ const Signup = () => {
                   required
                 />
               </div>
-              <div className="form-row">
+              {/* <div className="form-row">
                 <input
                   type="text"
                   name="referral_code"
@@ -184,18 +199,18 @@ const Signup = () => {
                   className="company"
                   placeholder="Enter Referral Code (Optional)"
                 />
-              </div>
+              </div> */}
               <div className="register-here">
                 <button className="register-button" type="submit" disabled={!isFormValid()}>
                   Register Here
                 </button>
               </div>
 
-              <div className="form-checkbox">
+              <div className="form-checkbox" style={{color:"#fff"}}>
                 <label className="container">
                   <p className="login-option-here">
                     You already have an account?{" "}
-                    <a to="/login" className="text-signup-here">
+                    <a href="/login" className="text-signup-here">
                       Login Here
                     </a>
                     .

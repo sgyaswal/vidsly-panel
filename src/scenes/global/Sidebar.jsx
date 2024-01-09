@@ -45,22 +45,15 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
-  let token ,username , name , staff
+  let name , staff
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const value = localStorage.getItem(key);
-    console.log(`${key}: ${value}`);
-
     const parsedData = JSON.parse(value);  // Parse the JSON string
-    token = parsedData.data.token;
     name =  parsedData.data.first_name + " " + parsedData.data.last_name;
-    username  = parsedData.data.username;
     staff = parsedData.data.is_staff;
-    console.log("Staff:", staff);
   }
-  const authToken = token
-  const userName = username
   const Name = name
   const Staff = staff
 
@@ -106,7 +99,14 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
+                <img
+                  alt="profile-user"
+                  width="50px"
+                  height="50px"
+                  src={`../../assets/flogo.jpeg`}
+                  style={{ cursor: "pointer", borderRadius: "50%", marginRight: "3%" }}
+                />
+                <Typography variant="h3" color={colors.grey[100]} style={{marginRight:'20px'}}>
                   Creator
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -194,14 +194,16 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-          
-            <Item
+            {Staff === true ? (
+              <Item
               title="Profile Form"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+            ):(null)}
+            
             <Item
               title="Calendar"
               to="/calendar"

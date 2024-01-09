@@ -17,6 +17,13 @@ function UpdateForm() {
         <Form.Control type="text" placeholder="Password" />
       </Form.Group>
       </div>
+      <div className='row'>
+      <Form.Group controlId="formFile" className="mb-3">
+        <Form.Label>Default file input example</Form.Label>
+        <Form.Control type="file" />
+      </Form.Group>
+      </div>
+      <div>
 
       <Form.Group className="mb-3" controlId="formBasicEmail" >
         <Form.Label>Email address</Form.Label>
@@ -25,6 +32,8 @@ function UpdateForm() {
           We'll never share your email with anyone else.
         </Form.Text>
       </Form.Group>
+      
+      </div>
       {/* <Button variant="primary" type="submit">
         Submit
       </Button> */}
