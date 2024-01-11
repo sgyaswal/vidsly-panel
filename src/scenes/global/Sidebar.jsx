@@ -18,6 +18,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import PaymentIcon from '@mui/icons-material/Payment';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from "react-router-dom";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -40,6 +41,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -56,6 +58,10 @@ const Sidebar = () => {
   }
   const Name = name
   const Staff = staff
+
+  const SelectContact = () => {
+    navigate("/contacts");
+  }
 
 
   return (
@@ -179,7 +185,8 @@ const Sidebar = () => {
             {Staff === true ? (
               <Item
               title="User Information"
-              to="/contacts"
+              // to="/contacts"
+              // onClick={SelectContact()}
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

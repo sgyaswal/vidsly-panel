@@ -80,9 +80,9 @@ function App() {
       // Redirect to the login page if the token is not present
       navigate('/login');
     }
-    else{
-      navigate('/');
-    }
+    // else{
+    //   navigate('/');
+    // }
     // You can perform further verification of the token here if needed
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
