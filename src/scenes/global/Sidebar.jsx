@@ -110,7 +110,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="50px"
                   height="50px"
-                  src={`../../assets/flogo.jpeg`}
+                  src={Userlogo}
                   style={{ cursor: "pointer", borderRadius: "50%", marginRight: "3%" }}
                 />
                 <Typography variant="h3" color={colors.grey[100]} style={{marginRight:'20px'}}>
