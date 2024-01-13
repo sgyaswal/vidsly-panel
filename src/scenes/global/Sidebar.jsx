@@ -185,7 +185,7 @@ const Sidebar = () => {
             {Staff === true ? (
               <Item
               title="User Information"
-              // to="/contacts"
+              to="/contacts"
               // onClick={SelectContact()}
               icon={<ContactsOutlinedIcon />}
               selected={selected}
