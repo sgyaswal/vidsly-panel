@@ -169,13 +169,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-               <Item
+               {/* <Item
               title="My Profile"
               to="/myprofile"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
               <Item
               title="Manage Team"
               to="/team"
@@ -202,7 +202,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            {Staff === true ? (
+            {/* {Staff === true ? (
               <Item
               title="Profile Form"
               to="/form"
@@ -211,7 +211,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             ):(null)}
-            
+             */}
             <Item
               title="Calendar"
               to="/calendar"

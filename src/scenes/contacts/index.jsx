@@ -64,38 +64,36 @@ const Contacts = () => {
         <Form>
           <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 'bold' }}  >
             <Typography variant="h3" gutterBottom>
-              Update Details
+              Update Payment Details
             </Typography>
           </Grid>
 
 
           <div className='row'>
-            <Form.Group className="col-md-6" controlId="formBasicPassword"   >
-              <Form.Label>First name </Form.Label>
-              <Form.Control type="text" placeholder="First Name" defaultValue={updatefirstName} />
+            <Form.Group className="col-md-12" controlId="formBasicPassword"   >
+              <Form.Label>Facebook </Form.Label>
+              <Form.Control type="text" placeholder="Facebook Amt."  />
             </Form.Group>
-            <Form.Group className="col-md-6" controlId="formBasicPassword">
-              <Form.Label>Last name</Form.Label>
-              <Form.Control type="text" placeholder="Last Name" defaultValue={updateLastName} />
+            <Form.Group className="col-md-12" controlId="formBasicPassword">
+              <Form.Label>Instagram</Form.Label>
+              <Form.Control type="text" placeholder="Instagram Amt."
+              //  defaultValue={updateLastName} 
+               />
             </Form.Group>
           </div>
           <div className='row'>
-            <Form.Group className="col-md-6" controlId="formBasicPassword"   >
-              <Form.Label>Username </Form.Label>
-              <Form.Control type="text" placeholder="Username" defaultValue={updateUsername} />
-            </Form.Group>
-            <Form.Group controlId="formFile" className="col-md-6">
-              <Form.Label>Update Inage</Form.Label>
-              <Form.Control type="file" />
+            <Form.Group className="col-md-12" controlId="formBasicPassword"   >
+              <Form.Label>Youtube </Form.Label>
+              <Form.Control type="text" placeholder="Youtube Amt." />
             </Form.Group>
 
           </div>
 
-          <Form.Group className="mb-3" controlId="formBasicEmail" >
+          {/* <Form.Group className="mb-3" controlId="formBasicEmail" >
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="Enter email" defaultValue={updateEmail} />
 
-          </Form.Group>
+          </Form.Group> */}
           {/* <Button variant="primary" type="submit">
   Submit
 </Button> */}
