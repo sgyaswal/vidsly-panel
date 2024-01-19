@@ -34,14 +34,16 @@ const Dashboard = () => {
     api2: true,
   })
 
-  let token , staff
+  let token , staff, parsedData
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const value = localStorage.getItem(key);
     // console.log(`${key}: ${value}`);
 
-    const parsedData = JSON.parse(value);  // Parse the JSON string
+    if(key=="authTokens"){
+    parsedData = JSON.parse(value);  // Parse the JSON string
+    }
     token = parsedData.data.token;
     staff = parsedData.data.is_staff;
     // staff = parsedData.data.is_staff;

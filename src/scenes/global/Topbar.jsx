@@ -37,14 +37,16 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
   const { logoutUser } = useContext(AuthContext);
 
-  let token ,username , name
+  let token ,username , name, parsedData
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const value = localStorage.getItem(key);
     console.log(`${key}: ${value}`);
 
-    const parsedData = JSON.parse(value);  // Parse the JSON string
+    if(key=="authTokens"){
+    parsedData = JSON.parse(value);  // Parse the JSON string
+  }
     token = parsedData.data.token;
     name =  parsedData.data.first_name + " " + parsedData.data.last_name;
     username  = parsedData.data.username;

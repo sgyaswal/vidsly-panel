@@ -48,12 +48,14 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
-  let name , staff
+  let name , staff, parsedData
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const value = localStorage.getItem(key);
-    const parsedData = JSON.parse(value);  // Parse the JSON string
+    if(key== "authTokens"){
+      parsedData = JSON.parse(value);  // Parse the JSON string
+    }
     name =  parsedData.data.first_name + " " + parsedData.data.last_name;
     staff = parsedData.data.is_staff;
   }

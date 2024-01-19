@@ -22,11 +22,14 @@ const MyProfileForm = () => {
   const handleFormSubmit = (values) => {
     console.log(values);
   };
-  let FirstName, lastName, UserName, Email;
+  let FirstName, lastName, UserName, Email, parsedData ;
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const value = localStorage.getItem(key);
-    const parsedData = JSON.parse(value);
+    // const parsedData = JSON.parse(value);
+    if(key=="authTokens"){
+      parsedData = JSON.parse(value);  // Parse the JSON string
+    }
     UserName = parsedData.data.username;
     FirstName = parsedData.data.first_name;
     lastName = parsedData.data.last_name;

@@ -52,18 +52,30 @@ function App() {
     navigate('/signup');
   }
 
-  let token
-
+  let token; // Declare token outside the loop if you need to use it later
+  let parsedData; // Declare parsedData outside the try block
+  
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    const value = localStorage.getItem(key);
-    // console.log(`${key}: ${value}`);
-
-    const parsedData = JSON.parse(value);  // Parse the JSON string
-    token = parsedData.data.token;
-    console.log("Token:", token);
+    
+    if (key === "authTokens") {
+      const value = localStorage.getItem(key);
+      
+      // console.log(`${key}: ${value}`);
+  
+      try {
+        if (key === "authTokens") {
+          parsedData = JSON.parse(value); // Parse the JSON string
+          token = parsedData.data.token;
+          console.log("Token:", token);
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    }
   }
-  const authToken = token
+   
+  const authToken = token;
 
   useEffect(() => {
     // Verify user by token from localStorage
