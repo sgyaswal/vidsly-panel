@@ -47,7 +47,7 @@ const MyProfileForm = () => {
 
   return (
     <Box m="20px">
-      <Header title="My Profile" subtitle="Edit Your Profile" />
+      <Header title="Update Profile" subtitle="Edit Your Profile" />
 
       <Formik
         onSubmit={handleFormSubmit}
