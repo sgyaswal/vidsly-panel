@@ -28,6 +28,7 @@ const Dashboard = () => {
     api1: true,
     api2: true,
   });
+  const [totalViews, setTotalViews] = useState(0);
 
   let token, staff, parsedData;
 
@@ -103,6 +104,11 @@ const Dashboard = () => {
 
       const latestVideoData = await latestVideoResponse.json();
       setLatestVideo(latestVideoData);
+      const totalViews = latestVideoData?.data.reduce(
+        (total, video) => total + video.views,
+        0
+      );
+      setTotalViews(totalViews);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -117,7 +123,7 @@ const Dashboard = () => {
 
   return (
     <>
-      {staff === true ? (
+      {isStaff === true ? (
         <Payment />
       ) : (
         <Box sx={{ position: "fixed", height: "calc(100vh - 20px)" }}>
@@ -202,25 +208,41 @@ const Dashboard = () => {
                 </div>
               )}
 
-              <Box
-                gridColumn="span 3"
-                backgroundColor={colors.primary[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <StatBox
-                  title="431,225"
-                  subtitle="Views"
-                  progress="0.50"
-                  increase="+21%"
-                  icon={
-                    <RemoveRedEyeIcon
-                      sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                    />
-                  }
-                />
-              </Box>
+              {!loading.api1 ? (
+                <Box
+                  gridColumn="span 3"
+                  backgroundColor={colors.primary[400]}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <StatBox
+                    title={totalViews}
+                    subtitle="Views"
+                    progress="0.50"
+                    increase="+21%"
+                    icon={
+                      <RemoveRedEyeIcon
+                        sx={{
+                          color: colors.greenAccent[600],
+                          fontSize: "26px",
+                        }}
+                      />
+                    }
+                  />
+                </Box>
+              ) : (
+                <div
+                  style={{
+                    marginRight: "10px",
+                    marginBottom: "10px",
+                    flexDirection: "row",
+                    backgroundColor: "{colors.primary[400]}",
+                  }}
+                >
+                  <Skeleton variant="rectangular" width={250} height={142} />
+                </div>
+              )}
               <Box
                 gridColumn="span 3"
                 backgroundColor={colors.primary[400]}
@@ -328,8 +350,8 @@ const Dashboard = () => {
                 </Box>
                 <Box>
                   {latestVideo &&
-                    latestVideo.data &&
-                    latestVideo.data.map((video, i) => (
+                    latestVideo?.data &&
+                    latestVideo?.data.map((video, i) => (
                       <Box
                         key={`${video.id}-${i}`}
                         display="flex"
@@ -342,7 +364,7 @@ const Dashboard = () => {
                           <div>
                             <Typography
                               color={colors.greenAccent[500]}
-                              className="marquee-text"
+                              className="text"
                               variant="h5"
                               fontWeight="600"
                             >
