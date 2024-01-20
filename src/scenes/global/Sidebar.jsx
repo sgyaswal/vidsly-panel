@@ -56,8 +56,8 @@ const Sidebar = () => {
     if(key== "authTokens"){
       parsedData = JSON.parse(value);  // Parse the JSON string
     }
-    name =  parsedData.data.first_name + " " + parsedData.data.last_name;
-    staff = parsedData.data.is_staff;
+    name =  parsedData?.data?.first_name + " " + parsedData?.data?.last_name;
+    staff = parsedData?.data?.is_staff;
   }
   const Name = name
   const Staff = staff

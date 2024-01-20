@@ -44,8 +44,8 @@ const Dashboard = () => {
     if(key=="authTokens"){
     parsedData = JSON.parse(value);  // Parse the JSON string
     }
-    token = parsedData.data.token;
-    staff = parsedData.data.is_staff;
+    token = parsedData?.data?.token;
+    staff = parsedData?.data?.is_staff;
     // staff = parsedData.data.is_staff;
     console.log("token:", token);
   }

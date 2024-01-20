@@ -47,9 +47,9 @@ const Topbar = () => {
     if(key=="authTokens"){
     parsedData = JSON.parse(value);  // Parse the JSON string
   }
-    token = parsedData.data.token;
-    name =  parsedData.data.first_name + " " + parsedData.data.last_name;
-    username  = parsedData.data.username;
+    token = parsedData?.data?.token;
+    name =  parsedData?.data?.first_name + " " + parsedData?.data?.last_name;
+    username  = parsedData?.data?.username;
     console.log("Token:", name);
   }
   const authToken = token
