@@ -11,16 +11,17 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import { mockTransactions } from "../../data/mockData";
-import UpdateForm from "../contacts/UpdateForm";
+// import { mockTransactions } from "../../data/mockData";
+// import UpdateForm from "../contacts/UpdateForm";
 import Payment from "../Payments/index";
 
 import "./continuedescription.css";
+import Loader from "../../components/Loader/Loader";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [latestVideo, setLatestVideo] = useState([]);
   const [totalEarning, setTotalEarning] = useState(null);
@@ -117,9 +118,15 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchAllUsers();
+    if(totalEarning==null){
+      fetchAllUsers();
+    }
     fetchAllLatestVideo();
   }, [authToken]);
+
+  if (loading.api2) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -207,8 +214,6 @@ const Dashboard = () => {
                   <Skeleton variant="rectangular" width={250} height={142} />
                 </div>
               )}
-
-              {!loading.api1 ? (
                 <Box
                   gridColumn="span 3"
                   backgroundColor={colors.primary[400]}
@@ -231,18 +236,6 @@ const Dashboard = () => {
                     }
                   />
                 </Box>
-              ) : (
-                <div
-                  style={{
-                    marginRight: "10px",
-                    marginBottom: "10px",
-                    flexDirection: "row",
-                    backgroundColor: "{colors.primary[400]}",
-                  }}
-                >
-                  <Skeleton variant="rectangular" width={250} height={142} />
-                </div>
-              )}
               <Box
                 gridColumn="span 3"
                 backgroundColor={colors.primary[400]}
