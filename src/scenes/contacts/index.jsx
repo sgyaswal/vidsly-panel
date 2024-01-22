@@ -1,23 +1,24 @@
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
+// import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import * as React from "react";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+// import Dialog from "@mui/material/Dialog";
+// import DialogActions from "@mui/material/DialogActions";
+// import DialogContent from "@mui/material/DialogContent";
+// import DialogContentText from "@mui/material/DialogContentText";
+// import DialogTitle from "@mui/material/DialogTitle";
 // import UpdateForm from "./UpdateForm";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import Form from "react-bootstrap/Form";
-import TextField from "@mui/material/TextField";
-import UpdateForm from "./UpdateForm";
+// import TextField from "@mui/material/TextField";
+// import UpdateForm from "./UpdateForm";
+import Loader from "../../components/Loader/Loader";
 
 const Contacts = () => {
   const theme = useTheme();
@@ -27,10 +28,10 @@ const Contacts = () => {
   const [error, setError] = useState(null);
   const [userId, setuserId] = useState(null);
   const [statuses, setStatuses] = useState({});
-  const [colorChanged, setColorChanged] = useState({});
-  const [Loading, setLoading] = useState({
-    api1: true,
-  });
+  // const [colorChanged, setColorChanged] = useState({});
+  // const [Loading, setLoading] = useState({
+  //   api1: true,
+  // });
   // const [open, setOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [updatefirstName, setUpdateFirstName] = useState("");
@@ -290,7 +291,7 @@ const Contacts = () => {
   }, [authToken, userId]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader/>;
   }
 
   if (error) {
