@@ -141,7 +141,7 @@ function SignUp() {
   const navigate = useNavigate();
   const [answers, setAnswers] = useState([]);
   const [showError, setShowError] = useState(false);
-  const [error, setError] = useState("Please fill this in");
+  const [error, setError] = useState("");
   const [currentQuestionId, setCurrentQuestionId] = useState(1);
   const [questionNumber, setQuestionNumber] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -474,6 +474,100 @@ function SignUp() {
             </div>
           </>
         );
+
+
+        case "third":
+          return (
+            <>
+              <div
+                className="question-container"
+                // id={question.validation === "phone" ? "text-input" : ""}
+              >
+                <div className="question-number-container">
+                  <label className="question-text">
+                    {"Gender"}
+                  </label>
+                </div>
+                <div className="question-subtitle">
+                </div>
+                <div>
+                  <input
+                    // ref={inputRef}
+                    className="text-input"
+                    type="text"
+                    id="Gender"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="First Name"
+                    
+                    value={firstName}
+                  />
+                </div>
+  
+                {/* second input field */}
+                <div className="question-number-container">
+                  <label className="question-text">
+                    {"Last Name"}
+                  </label>
+                </div>
+                
+                <div>
+                  <input
+                    // ref={inputRef}
+                    className="text-input"
+                    type="text"
+                    id="LastName"
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Last Name"
+                    value={lastName}
+                  />
+                </div>
+                <div className="question-number-container">
+                  <label className="question-text">
+                    {"Email"}
+                  </label>
+                </div>
+                
+                <div>
+                  <input
+                    // ref={inputRef}
+                    className="text-input"
+                    type="text"
+                    id="Email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    
+                    value={email}
+                  />
+                </div>
+                
+                
+                <div>{showError && <ErrorContainer error={error} />}</div>
+                <div>
+                  {!showError && (
+                    <ButtonContainer
+                      buttonText={
+                        question.isLastQuestion === true ? "Submit" : "OK"
+                      }
+                      showPressEnterText={
+                        question.isLastQuestion === true
+                          ? "Ctrl + Enter"
+                          : "Enter"
+                      }
+                      showPressEnter={true}
+                      // handleButtonClick={updateNextPage}
+                    />
+                  )}
+                </div>
+              </div>
+            </>
+          );
+  
+  
+                    
+
+
+
+
       case "select":
         return (
           <SelectInput
@@ -616,9 +710,9 @@ function SignUp() {
     return <Loader />;
   }
 
-  if (submitForm) {
-    // handleSignup();
-  }
+  // if (submitForm) {
+  //   // handleSignup();
+  // }
   return (
     <>
       <FullScroll

@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
@@ -22,6 +22,10 @@ import ForgotPass from "./scenes/forgotPassword/forgotpass";
 import MyProfileForm from "./scenes/myprofile/myProfile";
 import ResetPassword from "./scenes/resetPassword/resetPassword";
 import { useMemo } from "react";
+import Logiin from "../src/scenes/signup/logiin"
+import Gender from "../src/scenes/signup/gender"
+import SetAvatar from "../src/scenes/signup/SetAvatar"
+import Category  from "../src/scenes/signup/Categorys"
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import NotFoundRoute from "./scenes/404/404";
 
@@ -29,14 +33,17 @@ function App() {
   const navigate = useNavigate();
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
-   
-  
+
+
 
   const shouldRenderTopbarAndSidebar = (path) => {
     // Define the paths where you want to hide Topbar and Sidebar
     const pathsWithoutTopbarAndSidebar = [
       "/login",
-      "/signup",
+      "/stepone",
+      "/steptwo",
+      "/stepthree",
+      "/stepfour",
       "/forgotpass",
       /^\/resetPassword\/.*$/,
     ];
@@ -46,7 +53,7 @@ function App() {
       typeof pattern === "string" ? path === pattern : pattern.test(path)
     );
   };
-   
+
   const handleSignup = (e) => {
     console.log("Signup clicked");
     navigate('/signup');
@@ -54,15 +61,15 @@ function App() {
 
   let token; // Declare token outside the loop if you need to use it later
   let parsedData; // Declare parsedData outside the try block
-  
+
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    
+
     if (key === "authTokens") {
       const value = localStorage.getItem(key);
-      
+
       // console.log(`${key}: ${value}`);
-  
+
       try {
         if (key === "authTokens") {
           parsedData = JSON.parse(value); // Parse the JSON string
@@ -74,21 +81,37 @@ function App() {
       }
     }
   }
-   
+
   const authToken = token;
 
   useEffect(() => {
     // Verify user by token from localStorage
-    console.log("tokencvb",token)
-    if (window.location.pathname.includes('/signup')) {
+    console.log("tokencvb", token)
+    if (window.location.pathname.includes('/stepone')) {
       // Redirect to the login page if the token is not present and not navigating to signup
-      navigate('/signup');
+      navigate('/stepone');
+    }
+    else if (window.location.pathname.includes('/steptwo')) {
+      // Redirect to the login page if the token is not present and not navigating to signup
+      navigate('/steptwo');
+    }
+    else if (window.location.pathname.includes('/stepthree')) {
+      // Redirect to the login page if the token is not present and not navigating to signup
+      navigate('/stepthree');
+    }
+    else if (window.location.pathname.includes('/stepfour')) {
+      // Redirect to the login page if the token is not present and not navigating to signup
+      navigate('/stepfour');
     }
     else if (window.location.pathname.includes('/forgotpass')) {
       // Redirect to the login page if the token is not present and not navigating to signup
       navigate('/forgotpass');
     }
-   else if (!authToken) {
+    else if (window.location.pathname.includes('/forgotpass')) {
+      // Redirect to the login page if the token is not present and not navigating to signup
+      navigate('/forgotpass');
+    }
+    else if (!authToken) {
       // Redirect to the login page if the token is not present
       navigate('/login');
     }
@@ -98,7 +121,7 @@ function App() {
     // You can perform further verification of the token here if needed
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authToken,navigate]);
+  }, [authToken, navigate]);
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -127,12 +150,16 @@ function App() {
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/geography" element={<Geography />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              {/* <Route path="/signup" element={<Signup />} /> */}
               <Route path="/forgotpass" element={<ForgotPass />} />
               <Route
                 path="/resetPassword/:id/:token"
                 element={<ResetPassword />}
               />
+              <Route path='/stepone' element={<Logiin />} />
+              <Route path='/steptwo' element={<Gender />} />
+              <Route path='/stepthree' element={<Category />} />
+              <Route path='/stepfour' element={<SetAvatar />} />
             </Routes>
           </main>
         </div>
@@ -147,7 +174,7 @@ function App() {
 //       <ColorModeContext.Provider value={colorMode}>
 //         <ThemeProvider theme={theme}>
 //           <CssBaseline />
-  
+
 //           <div className="app">
 //           {memoizedShouldRender && (
 //           <>

@@ -20,7 +20,7 @@ function FullScroll(props) {
     answers,
     handleShowError,
     currentQuestionId,
-    isRequiredQuestionAnswered,
+    // isRequiredQuestionAnswered,
     checkIfLastQuestion
   } = props;
 
@@ -37,7 +37,10 @@ function FullScroll(props) {
 
   const handleNextQuestion = (pageIndex) => {
     // dont scroll if required not filled
-    if (isQuestion(pageIndex) && !isRequiredQuestionAnswered()) {
+    if (isQuestion(pageIndex) 
+    // && 
+    // !isRequiredQuestionAnswered()
+    ) {
       handleShowError(true);
       return pageIndex;
     }

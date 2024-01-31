@@ -1,0 +1,10 @@
+/* styles.css or your stylesheet */
+.poppins-chip {
+    font-family: 'Poppins';
+    /* font-weight: 400; */
+    /* Add other styles as needed */
+  }
+  
+  .MuiGrid-root {
+    font-family: 'Poppins', sans-serif; /* Replace 'Your Font Family' with the actual font family you want to use */
+  }
