@@ -65,13 +65,13 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Category() {
+export default function Category({isClicked, setIsClicked, selectedChips, setSelectedChips, intrest, setInterest, displayname, setDisplaynamee, bio, setBio}) {
     // const [gender, setGender] = React.useState('');
-    const [isClicked, setIsClicked] = useState(false);
-    const [selectedChips, setSelectedChips] = useState([]);
-    const [intrest, setInterest] = useState([]);
-    const [bio, setBio] = useState([]);
-    const [displayname, setDisplaynamee] = useState([]);
+    // const [isClicked, setIsClicked] = useState(false);
+    // const [selectedChips, setSelectedChips] = useState([]);
+    // const [intrest, setInterest] = useState([]);
+    // const [bio, setBio] = useState([]);
+    // const [displayname, setDisplaynamee] = useState([]);
     const nevigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -107,32 +107,61 @@ export default function Category() {
   }, [selectedChips]);
 
 
+  // const handleIntrest = (event) => {
+  //   const { value, checked } = event.target;
+  //   console.log(`${value} is ${checked}`)
+  //   if (checked) {
+      
+  //     setInterest([...intrest, value]);
+  //   } else {
+  //     setInterest(intrest.filter((event) => event !== value));
+  //   }
+    
+  // };
+
   const handleIntrest = (event) => {
     const { value, checked } = event.target;
     console.log(`${value} is ${checked}`)
     if (checked) {
-      
-      setInterest([...intrest, value]);
+      setInterest((prevIntrest) => [...prevIntrest, value]);
     } else {
-      setInterest(intrest.filter((event) => event !== value));
+      setInterest((prevIntrest) => prevIntrest.filter((item) => item !== value));
     }
-    
   };
+
 
   console.log("...",intrest)
 
-  const handleClick = (label) => {
+  // const handleClick = (label) => {
+
+
      
-    if (selectedChips.includes(label)) {
+  //   // if (selectedChips?.includes(label)) {
+  //   //   // If the chip is already selected, remove it
+  //   //   setSelectedChips(selectedChips.filter(chip => chip !== label));
+  //   // } else {
+  //   //   // If the chip is not selected, add it
+  //   //   setSelectedChips([...selectedChips, label]); 
+  //   // }
+    
+  //   console.log('Selected Chips:', selectedChips);
+  
+  // };
+
+  const handleClick = (label) => {
+    const updatedChips = Array.isArray(selectedChips) ? [...selectedChips] : [];
+  
+    if (updatedChips.includes(label)) {
       // If the chip is already selected, remove it
-      setSelectedChips(selectedChips.filter(chip => chip !== label));
+      updatedChips.splice(updatedChips.indexOf(label), 1);
     } else {
       // If the chip is not selected, add it
-      setSelectedChips([...selectedChips, label]); 
+      updatedChips.push(label);
     }
-    
-    console.log('Selected Chips:', selectedChips);
   
+    setSelectedChips(updatedChips);
+  
+    console.log('Selected Chips:', updatedChips);
   };
   
   const handleClickArtist = () => {
@@ -140,13 +169,12 @@ export default function Category() {
     // setIsClicked(true);
 
   };
-  var bodygen = {selectedChips,intrest,displayname,bio}
-  const handlePageChange = () => {
-    dispatch({type:'ADD_CATEGORY',payload:[selectedChips,bodygen]})
-    nevigate('/stepfour')
-  }
+  // var bodygen = {selectedChips,intrest,displayname,bio}
+  // const handlePageChange = () => {
+  //   dispatch({type:'ADD_CATEGORY',payload:[selectedChips,bodygen]})
+  //   nevigate('/stepfour')
+  // }
 
-  console.log(" Redux store :",selectedChips,intrest,displayname,bio)
 
 //   const chipClass = poppins-chip${isClicked ? ' clicked' : ''};
 const chipStyle = {
@@ -229,48 +257,48 @@ const theme = createTheme({
           <Chip label="Content Creator" onClick={() => handleClick('Content Creator')} 
         //   style={chipStyle}
         //    style={selectedChip === 'Content Creator' ? chipStyles.selected : chipStyles.default}
-        style={selectedChips.includes('Content Creator') ? chipStyles.selected : chipStyles.default}
+        style={selectedChips?.includes('Content Creator') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Artist" onClick={() => handleClick('Artist')} 
         //  style={selectedChip === 'Artist' ? chipStyles.selected : chipStyles.default}
-        style={selectedChips.includes('Artist') ? chipStyles.selected : chipStyles.default}
+        style={selectedChips?.includes('Artist') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Vlogger" onClick={() => handleClick('Vlogger')} 
-         style={selectedChips.includes('Vlogger') ? chipStyles.selected : chipStyles.default}
+         style={selectedChips?.includes('Vlogger') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Gamer" onClick= {() => handleClick('Gamer')} 
-           style={selectedChips.includes('Gamer') ? chipStyles.selected : chipStyles.default}
+           style={selectedChips?.includes('Gamer') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Brand" onClick= {() => handleClick('Brand')} 
-           style={selectedChips.includes('Brand') ? chipStyles.selected : chipStyles.default}
+           style={selectedChips?.includes('Brand') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Public Figure" onClick= {() => handleClick('Public Figure')} 
-           style={selectedChips.includes('Public Figure') ? chipStyles.selected : chipStyles.default}
+           style={selectedChips?.includes('Public Figure') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Influencer" onClick= {() => handleClick('Influencer')} 
-           style={selectedChips.includes('Influencer') ? chipStyles.selected : chipStyles.default}
+           style={selectedChips?.includes('Influencer') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Enterpreneur" onClick= {() => handleClick('Enterpreneur')} 
-           style={selectedChips.includes('Enterpreneur') ? chipStyles.selected : chipStyles.default}
+           style={selectedChips?.includes('Enterpreneur') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Chef" onClick= {() => handleClick('Chef')} 
-           style={selectedChips.includes('Chef') ? chipStyles.selected : chipStyles.default}
+           style={selectedChips?.includes('Chef') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="Publisher" onClick= {() => handleClick('Publisher')} 
-           style={selectedChips.includes('Publisher') ? chipStyles.selected : chipStyles.default}
+           style={selectedChips?.includes('Publisher') ? chipStyles.selected : chipStyles.default}
 
           />
           <Chip label="other" onClick= {() => handleClick('Other')} 
-           style={selectedChips.includes('Other') ? chipStyles.selected : chipStyles.default}
+           style={selectedChips?.includes('Other') ? chipStyles.selected : chipStyles.default}
 
           />
           
@@ -308,7 +336,7 @@ const theme = createTheme({
             value="Sports"
             onChange={handleIntrest}
             style={{fontFamily:'Poppins',fontWeight:'400'}}
-            control={<Checkbox checked={intrest.includes("Sports")} style={{marginLeft:'50px'}}/>}
+            control={<Checkbox checked={intrest?.includes("Sports")} style={{marginLeft:'50px'}}/>}
             label="Sports"
             labelPlacement="start"
           />
@@ -322,7 +350,7 @@ const theme = createTheme({
           <FormControlLabel
             value="Food"
             onChange={handleIntrest}
-            control={<Checkbox checked={intrest.includes("Food")} style={{marginLeft:'50px'}}/>}
+            control={<Checkbox checked={intrest?.includes("Food")} style={{marginLeft:'50px'}}/>}
             // control={<Checkbox style={{marginLeft:'50px'}} />}
             label="Food"
             labelPlacement="start"
@@ -338,7 +366,7 @@ const theme = createTheme({
           <FormControlLabel
             value="Photography"
             onChange={handleIntrest}
-            control={<Checkbox checked={intrest.includes("Photography")} />}
+            control={<Checkbox checked={intrest?.includes("Photography")} />}
             label="Photography"
             labelPlacement="start"
           />
@@ -351,7 +379,7 @@ const theme = createTheme({
           <FormControlLabel
             value="Business"
             onChange={handleIntrest}
-            control={<Checkbox checked={intrest.includes("Business")} style={{marginLeft:'20px'}} />}
+            control={<Checkbox checked={intrest?.includes("Business")} style={{marginLeft:'20px'}} />}
             label="Business"
             labelPlacement="start"
           />
@@ -370,7 +398,7 @@ const theme = createTheme({
           <FormControlLabel
             value="Music"
             onChange={handleIntrest}
-            control={<Checkbox  checked={intrest.includes("Music")} style={{marginLeft:'60px'}} />}
+            control={<Checkbox  checked={intrest?.includes("Music")} style={{marginLeft:'60px'}} />}
             label="Music"
             labelPlacement="start"
           />
@@ -382,7 +410,7 @@ const theme = createTheme({
           <FormControlLabel
             value="Entertainment"
             onChange={handleIntrest}
-            control={<Checkbox checked={intrest.includes("Entertainment")} />}
+            control={<Checkbox checked={intrest?.includes("Entertainment")} />}
             label="Entertainment"
             labelPlacement="start"
           />
@@ -400,7 +428,7 @@ const theme = createTheme({
           <FormControlLabel
            onChange={handleIntrest}
             value="Others"
-            control={<Checkbox checked={intrest.includes("Others")} style={{marginLeft:'80px'}} />}
+            control={<Checkbox checked={intrest?.includes("Others")} style={{marginLeft:'80px'}} />}
             label="Others"
             labelPlacement="start"
           />
@@ -499,7 +527,7 @@ const theme = createTheme({
     />
             
 
-            <Button
+            {/* <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -517,10 +545,10 @@ const theme = createTheme({
 
             >
               Continue
-            </Button>
-            <div style={{fontFamily:'Poppins',fontWeight:'500',display:'flex',justifyContent:'center',alignItems:'center',marginTop:'10px'}} >
+            </Button> */}
+            {/* <div style={{fontFamily:'Poppins',fontWeight:'500',display:'flex',justifyContent:'center',alignItems:'center',marginTop:'10px'}} >
             Skip this step
-          </div>
+          </div> */}
             <Grid container>
              
               

@@ -32,21 +32,17 @@ function Copyright(props) {
     </Typography>
   );
 }
-let datac 
-function getData(data){
-  console.log(data)
-   datac = data
-}
+
 
 
 const defaultTheme = createTheme();
 
-export default function Gender() {
-    const [gender, setGender] = React.useState('');
-    const [city ,setCity] = React.useState('')
-    const [country,setCountry] = React.useState('')
-    const [selectedCountryValue, setSelectedCountryValue] = useState(null);
-
+export default function Gender({gender, city, country, selectedCountryValue, setCity, setGender, setSelectedCountryValue, setCountry, setSignupone, datac, setDatac}) {
+  // const [city ,setCity] = React.useState('')
+  // const [gender, setGender] = React.useState('');
+  // const [country,setCountry] = React.useState('')
+  // const [selectedCountryValue, setSelectedCountryValue] = React.useState(null);
+  
   const handleCountryChange = (selectedCountry) => {
     setSelectedCountryValue(selectedCountry);
   };
@@ -60,15 +56,14 @@ export default function Gender() {
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
+  let datacs 
+function getData(data){
+  console.log(data)
+   datacs = data
+   setDatac(datacs)
+}
 
-  var bodygen = {gender,city,datac}
-  const handlePageChange = () => {
-    dispatch({type:'ADD_GENDER',payload:[city,bodygen]})
-    nevigate('/stepthree')
-  }
-    
-    // console.log("The values are :",gender,city,selectedCountryValue)
-  
+  // var bodygen = {gender,city,datac}
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -153,16 +148,9 @@ export default function Gender() {
             City
           </div>
             <TextField
-            //   margin="normal"
-            //   variant="filled"
-            // //   required
+            
               fullWidth
-            //   name="password"
-            // //   label="Password"
-            //   type="password"
-            //   id="password"
-            //   autoComplete="current-password"
-            //   sx={{ borderRadius: '50%' }}
+        
             onChange={(e) => setCity(e.target.value)}
             InputProps={{
                 style: { borderRadius: '50px'  }
@@ -189,7 +177,7 @@ export default function Gender() {
     /> */}
             
 
-            <Button
+            {/* <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -210,7 +198,7 @@ export default function Gender() {
             </Button>
             <div style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex',justifyContent:'center',alignItems:'center',marginTop:'10px'}} >
             Skip to continue
-          </div>
+          </div> */}
             <Grid container>
              
               

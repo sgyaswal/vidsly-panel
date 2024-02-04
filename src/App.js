@@ -27,6 +27,7 @@ import Gender from "../src/scenes/signup/gender"
 import SetAvatar from "../src/scenes/signup/SetAvatar"
 import Category  from "../src/scenes/signup/Categorys"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Checkout from "../src/Checkout/Checkout";
 // import NotFoundRoute from "./scenes/404/404";
 
 function App() {
@@ -40,6 +41,8 @@ function App() {
     // Define the paths where you want to hide Topbar and Sidebar
     const pathsWithoutTopbarAndSidebar = [
       "/login",
+      "/checkout",
+      "/signup",
       "/stepone",
       "/steptwo",
       "/stepthree",
@@ -87,7 +90,15 @@ function App() {
   useEffect(() => {
     // Verify user by token from localStorage
     console.log("tokencvb", token)
-    if (window.location.pathname.includes('/stepone')) {
+    if (window.location.pathname.includes('/signup')) {
+      // Redirect to the login page if the token is not present and not navigating to signup
+      navigate('/signup');
+    }
+    else if (window.location.pathname.includes('/checkout')) {
+      // Redirect to the login page if the token is not present and not navigating to signup
+      navigate('/checkout');
+    }
+    else if (window.location.pathname.includes('/stepone')) {
       // Redirect to the login page if the token is not present and not navigating to signup
       navigate('/stepone');
     }
@@ -150,7 +161,7 @@ function App() {
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/geography" element={<Geography />} />
               <Route path="/login" element={<Login />} />
-              {/* <Route path="/signup" element={<Signup />} /> */}
+              <Route path="/signup" element={<Signup />} />
               <Route path="/forgotpass" element={<ForgotPass />} />
               <Route
                 path="/resetPassword/:id/:token"
@@ -160,6 +171,7 @@ function App() {
               <Route path='/steptwo' element={<Gender />} />
               <Route path='/stepthree' element={<Category />} />
               <Route path='/stepfour' element={<SetAvatar />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Routes>
           </main>
         </div>

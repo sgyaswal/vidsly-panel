@@ -21,41 +21,34 @@ import { useDispatch } from 'react-redux';
 import vidsly from "../../assets/Vidsly.jpeg"
 
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}
-    //  sx={{backgroundColor}}
-    >
 
-      {'Copyright ©MedAssist '}
-      <Link color="inherit" href="https://mui.com/">
-        MedAssist
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright(props) {
+//   return (
+//     // <Typography variant="body2" color="text.secondary" align="center" {...props}
+//     // //  sx={{backgroundColor}}
+//     // >
+
+//     //   {'Copyright ©MedAssist '}
+//     //   <Link color="inherit" href="https://mui.com/">
+//     //     MedAssist
+//     //   </Link>{' '}
+//     //   {new Date().getFullYear()}
+//     //   {'.'}
+//     // </Typography>
+//   );
+// }
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-export default function Logiin() {
+export default function Logiin({firstName,lastName,email,password,confirmPassword,setFirstName,setLastName,setEmail,setPassword,setConfirmPassword,firstNameError,setFirstNameError,lastNameError,setLastNameError,emailError,setEmailError,passwordError,setPasswordError,props}) {
 //   var navigate = useNavigate();
 //   var dispatch = useDispatch()
   // const[emailId,setEmailId]=useState('')
   // const[password,setPassword]=useState('')
 
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [confirmPassword, setConfirmPassword] = React.useState('');
-    const [emailError, setEmailError] = useState('');
-    const [firstNameError, setFirstNameError] = useState('');
-    const [lastNameError, setLastNameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -158,20 +151,15 @@ const validatePassword = () => {
 };
 
 var body = {email , password , firstName , lastName}
-const handlePageChange = () => {
+const handlePageChange = (props) => {
 
-  // validateEmail();
-  // validateFirstName();
-  // validateLastName();
-  // validatePassword();
-  // Only navigate if there are no email errors
-  // navigate('/steptwo')
+  console.log(props.nextStep)
+  // e.preventDefault();
+  //   nextStep();
 
-  //  if (!emailError ) {
-  //   // Navigate to '/steptwo'
-  //   navigate('/steptwo');
-  dispatch({type:'ADD_PATIENT',payload:[email,body]})
-  navigate('/steptwo');
+ 
+  // dispatch({type:'ADD_PATIENT',payload:[email,body]})
+  // navigate('/steptwo');
  
   
   // else {
@@ -257,17 +245,11 @@ const handlePageChange = () => {
           </div>
               
               <TextField
-                // margin="normal"
-                // required
+               
                 fullWidth
                 id="email"
                 onChange={(e) => setEmail(e.target.value)}
-                // onChange = {(event)=>setEmailId(event.target.value)}
-                // label="Email Address"
-                // name="email"
-                // autoComplete="email"
-                // autoFocus
-                // style={{ width: '70%',marginLeft:'5%'}}  
+       
                 InputProps={{
                   style: { borderRadius: '50px'  }
                 }}
@@ -380,71 +362,11 @@ Password
               
               }}
             />
-
-              {/* <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                // onChange = {(event)=>setPassword(event.target.value)}
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                style={{ width: '70%',marginLeft:'5%'}}  
-              /> */}
+             
               
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
-              {/* <Button
-                //  onClick={handleLogin}
-                //  ()=>navigate("/userdashboard")
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                style={{ backgroundColor: "#30e14e" ,marginLeft:'5%',width: '70%'}}
-              >
-                Sign In
-              </Button> */}
-              {/* <a  href='/steptwo'  > */}
-              <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={handlePageChange}
-              // sx={{ mt: 3, mb: 2 }}
-              sx={{
-                fontFamily: 'Poppins',
-                marginTop:'30px',
-                padding: '10px', // Adjust the padding as needed
-                borderRadius: '50px', // Adjust the border radius as needed
-                color:'#fff',
-                backgroundColor: "#7066FD",
-                
-            
-            }}
-
-            >
-              Sign in
-            </Button>
-            {/* </a> */}
                 
 
-              {/* <Grid container>
-                <Grid item xs>
-                  <Link href="/userregistration" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid> */}
-              <Copyright sx={{ mt: 5 }} />
+              
             </Box>
           </Box>
         </Grid>
@@ -453,16 +375,9 @@ Password
           xs={false}
           sm={4}
           md={7}
-          // sx={{
-          //   backgroundImage: '#000',
-           
-          //   backgroundColor: (t) =>
-          //     t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-          //   backgroundSize: 'cover',
-          //   backgroundPosition: 'center',
-          // }}
           
-          style={{ backgroundImage: `url(${vidsly})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', width: '10%', height: '700px' }}
+          
+          style={{ backgroundImage: `url(${vidsly})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', width: '10%', height: '700px' }}
 
         />
       </Grid>

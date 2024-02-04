@@ -37,103 +37,87 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SetAvatar() {
+export default function SetAvatar({setValues,setValuesone,setValuescategory,Values,Valuesone,Valuescategory}) {
     const [gender, setGender] = React.useState('');
-    const [error, setError] = React.useState("");
+    
+    // const [Values, setValues] = React.useState()
+    // const [Valuesone, setValuesone] = React.useState()
+    // const [Valuescategory, setValuescategory] = React.useState()
     const navigate = useNavigate()
 
 
-    var patient = useSelector(state =>state.patient)
-    var keys = Object.keys(patient)
-    var values = Object.values(patient)
+    // var patient = useSelector(state =>state.patient)
+    // var keys = Object.keys(patient)
+    // var values = Object.values(patient)
+    // setValues(values)
 
 
-    var genderone = useSelector(state =>state.gender)
-    var keysone = Object.keys(genderone)
-    var valueone = Object.values(genderone)
+    // var genderone = useSelector(state =>state.gender)
+    // var keysone = Object.keys(genderone)
+    // var valueone = Object.values(genderone)
+    // setValuesone(valueone)
+    // console.log("Values :",Values[0].firstName)
 
     
-    console.log("Values :",valueone)
-    console.log("Valuesone:",values)
+    // console.log("Values :",valueone)
+    // console.log("Valuesone:",values)
 
     // var patientData = Object.values(patient)[0]
     // console.log(patientData)
 
     
-    var category = useSelector(state =>state.category)
-    var keyscategory = Object.keys(category)
-    var valuecategory = Object.values(category)
+    // var category = useSelector(state =>state.category)
+    // var keyscategory = Object.keys(category)
+    // var valuecategory = Object.values(category)
+    // setValuescategory(valuecategory)
     
     
-    console.log("Valuesvvvv :",valueone[0].gender)
-    // console.log("Valuesvvvv :",valueone[0].city)
-    // console.log("Valuesvvvv :",valueone[0].datac)
-    console.log("Vsvvvv :",values[0].firstName)
-    console.log("Vcategorccc :",valuecategory[0].bio)
-    console.log("Vcategoriii :",valuecategory[0].intrest)
+    // console.log("Valuesvvvv :",valueone[0].gender)
+    // // console.log("Valuesvvvv :",valueone[0].city)
+    // // console.log("Valuesvvvv :",valueone[0].datac)
+    // console.log("Vsvvvv :",values[0].firstName)
+    // console.log("Vcategorccc :",valuecategory[0].bio)
+    // console.log("Vcategoriii :",valuecategory[0].intrest)
+
+    const patientData = useSelector(state => state.patient);
+  const genderData = useSelector(state => state.gender);
+  const categoryData = useSelector(state => state.category);
+
+  // const firstName = patientData?.[0]?.firstName;
+
+  // const { email = '', firstName, lastName, password } = patientData;
+
+  // console.log("Email:", email);
+  const SignupDetail = Object.values(patientData)[0]
+  const GenderDetail = Object.values(genderData)[0]
+  const CategoryDetail = Object.values(categoryData)[0]
+  setValues(SignupDetail)
+  setValuesone(GenderDetail)
+  setValuescategory(CategoryDetail)
+  console.log("Patientccccc data:",Values.email);
+
+
+  console.log("Patient----- data:", SignupDetail);
 
 
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
+    console.log("1")
   };
-
-  const handleSignup = async () => {
-    try {
-      const signupData = {
-        first_name: values[0].firstName,
-        last_name: values[0].lastName,
-        email: values[0].email,
-        password: values[0].password,
-        gender: valueone[0].gender,
-        city : valueone[0].city,
-        country : valueone[0].datac,
-        bio : valuecategory[0].bio,
-        username : valuecategory[0].displayname,
-        intrest : valuecategory[0].intrest,
-        selectedChip : valuecategory[0].selectedChip,
-      };
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/user/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(signupData),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.status === 201) {
-        Swal.fire({
-          position: "top",
-          icon: "success",
-          title: "Signup successful",
-          showConfirmButton: false,
-          timer: 3000,
-          toast: true,
-        });
-        console.log("Signup successful");
-        setError("");
-        navigate("/login"); // Redirect to login page after successful signup
-      } else {
-        // Handle unsuccessful signup
-        setError("Signup failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error during signup:", error.message);
-      setError("An error occurred during signup");
-    }
-  };
-
 
   
-  const handleSubmit = (event) => {
+
+  
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   handleSignup(data);
+  // };
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    handleSignup()
+    console.log("3")
+    // await handleSignup();
   };
 
   return (
@@ -150,7 +134,7 @@ export default function SetAvatar() {
         >
           
          
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
           <div style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex', marginBottom:'5px', fontSize:'40px'}} >
             Setup your avatar
           </div>
@@ -162,7 +146,7 @@ export default function SetAvatar() {
           {/* <input  style={{ display: 'none' }}  /> */}
             
 
-            <Button
+            {/* <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -179,7 +163,7 @@ export default function SetAvatar() {
 
             >
               Submmit
-            </Button>
+            </Button> */}
             {/* <div style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex',justifyContent:'center',alignItems:'center',marginTop:'10px'}} >
             Skip to continue
           </div> */}
