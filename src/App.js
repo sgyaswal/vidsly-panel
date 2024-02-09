@@ -94,6 +94,7 @@ function App() {
       // Redirect to the login page if the token is not present and not navigating to signup
       navigate('/signup');
     }
+    
     else if (window.location.pathname.includes('/checkout')) {
       // Redirect to the login page if the token is not present and not navigating to signup
       navigate('/checkout');
