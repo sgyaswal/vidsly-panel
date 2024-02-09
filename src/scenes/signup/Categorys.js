@@ -65,7 +65,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Category({isClicked, setIsClicked, selectedChips, setSelectedChips, intrest, setInterest, displayname, setDisplaynamee, bio, setBio}) {
+export default function Category({isClicked, setIsClicked, selectedChips, setSelectedChips, intrest, setInterest, displayname, setDisplaynamee, bio, setBio , bioError, setBioError, displaynameError, setDisplaynameError}) {
     // const [gender, setGender] = React.useState('');
     // const [isClicked, setIsClicked] = useState(false);
     // const [selectedChips, setSelectedChips] = useState([]);
@@ -246,17 +246,10 @@ const theme = createTheme({
           </div>
            <div style={{fontFamily:'Poppins'}} >
            
-          {/* <Chip label="Clickable" onClick={handleClick} className={chipStyle} /> */}
-          {/* <Chip label="->" onClick={() => handleClick('')} 
-        //   style={chipStyle}
-        //    style={selectedChip === 'Content Creator' ? chipStyles.selected : chipStyles.default}
-        style={selectedChips.includes('') ? chipStyles.selected : chipStyles.default}
-
-          /> */}
+          
 
           <Chip label="Content Creator" onClick={() => handleClick('Content Creator')} 
-        //   style={chipStyle}
-        //    style={selectedChip === 'Content Creator' ? chipStyles.selected : chipStyles.default}
+        
         style={selectedChips?.includes('Content Creator') ? chipStyles.selected : chipStyles.default}
 
           />
@@ -476,12 +469,8 @@ const theme = createTheme({
               onChange={(e) => setDisplaynamee(e.target.value)}
               placeholder='Display name*'
               value ={displayname}
-            //   name="password"
-            // //   label="Password"
-            //   type="password"
-            //   id="password"
-            //   autoComplete="current-password"
-            //   sx={{ borderRadius: '50%' }}
+              error = {Boolean(displaynameError)}
+              helperText={displaynameError}
             InputProps={{
                 style: { borderRadius: '50px'  }
               }}
@@ -511,6 +500,8 @@ const theme = createTheme({
           <TextField
        onChange={(e) => setBio(e.target.value)}     
        value ={bio}
+       error = {Boolean(bioError)}
+        helperText={bioError}
       fullWidth
       multiline
       rows={3}

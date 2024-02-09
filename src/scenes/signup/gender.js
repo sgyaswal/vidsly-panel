@@ -37,31 +37,31 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Gender({gender, city, country, selectedCountryValue, setCity, setGender, setSelectedCountryValue, setCountry, setSignupone, datac, setDatac}) {
+export default function Gender({ gender, city, country, selectedCountryValue, setCity, setGender, setSelectedCountryValue, setCountry, setSignupone, datac, setDatac , GenderError, CityError, CountryError , setGenderError, setCityError, setCountryError}) {
   // const [city ,setCity] = React.useState('')
   // const [gender, setGender] = React.useState('');
   // const [country,setCountry] = React.useState('')
   // const [selectedCountryValue, setSelectedCountryValue] = React.useState(null);
-  
+
   const handleCountryChange = (selectedCountry) => {
     setSelectedCountryValue(selectedCountry);
   };
-    // const [signupone, setSignupone] = React.useState('');
-    const nevigate = useNavigate()
-    const location = useLocation() 
-    const dispatch = useDispatch()
-    // console.log(location.state)
-    // setSignupone(location.state)
+  // const [signupone, setSignupone] = React.useState('');
+  const nevigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useDispatch()
+  // console.log(location.state)
+  // setSignupone(location.state)
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
-  let datacs 
-function getData(data){
-  console.log(data)
-   datacs = data
-   setDatac(datacs)
-}
+  let datacs
+  function getData(data) {
+    console.log(data)
+    datacs = data
+    setDatac(datacs)
+  }
 
   // var bodygen = {gender,city,datac}
   const handleSubmit = (event) => {
@@ -92,120 +92,71 @@ function getData(data){
             Sign in
           </Typography> */}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <div style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex', marginBottom:'5px'}} >
-            Gender
-          </div>
+            <div style={{ fontFamily: 'Poppins', fontWeight: 'bold', display: 'flex', marginBottom: '10px' }} >
+              Gender
+            </div>
 
-          <Select
-        value={gender}
-        onChange={handleGenderChange}
-        displayEmpty
-        fullWidth 
-        id="gender"
-        name="gender"
-        style={{ borderRadius: '100px' }}
-  // InputProps={{
-  //   style: { borderRadius: '8px' },
-  // }}
-       
-      >
-        <MenuItem value="" disabled   >
-          Select Gender
-        </MenuItem>
-        <MenuItem value="male">Male</MenuItem>
-        <MenuItem value="female">Female</MenuItem>
-        <MenuItem value="others">Others</MenuItem>
-      </Select>
-
-      <div style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex', marginBottom:'5px'}} >
-            Country
-          </div>
-
-      <CountryDropdown  getData={getData} />
-
-            {/* <TextField
-              margin="normal"
-              required
+            <Select
+              value={gender}
+              error = {Boolean(GenderError)}
+              helperText={GenderError} 
+              onChange={handleGenderChange}
+              displayEmpty
               fullWidth
               id="gender"
-              label="Gender"
               name="gender"
-              autoComplete="gender"
-              autoFocus
-              InputProps={{
-                style: { borderRadius: '50px'  }
-              }}
-            /> */}
-
-             {/* <TextField
-             fullWidth
-        hiddenLabel
-        id="filled-hidden-label-normal"
-        defaultValue="Normal"
-        variant="filled"
-      /> */}
-       <div style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex'}} >
-            City
-          </div>
-            <TextField
+              
+              style={{ borderRadius: '100px', width: '25vw', marginBottom: '10px' }}
             
+            >
+              <MenuItem value="" disabled  >
+                Select Gender
+              </MenuItem>
+              <MenuItem value="male">Male</MenuItem>
+              <MenuItem value="female">Female</MenuItem>
+              <MenuItem value="others">Others</MenuItem>
+            </Select>
+
+            <div  style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex', marginTop:'5px', marginBottom:'10px'}} >
+              Country
+            </div>
+
+            <CountryDropdown getData={getData} />
+
+            <div style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex', marginBottom:'10px',marginTop:'5px'}}  >
+              City
+            </div>
+            <TextField
+
               fullWidth
-        
-            onChange={(e) => setCity(e.target.value)}
-            InputProps={{
-                style: { borderRadius: '50px'  }
+
+              onChange={(e) => setCity(e.target.value)}
+              InputProps={{
+                style: { borderRadius: '50px' }
               }}
               variant="outlined"
               placeholder='City*'
-              value ={city}
-              sx={{
-                  fontFamily: 'Poppins',
-                  marginTop:'10px',
-                  // padding: '10px', // Adjust the padding as needed
-                  borderRadius: '50px', // Adjust the border radius as needed
-              
-              }}
-            />
-            {/* <input
-      style={{
-        borderRadius: '50px',
-        border: '2px solid black',
-        padding: '5px',
-        backgroundColor:'red'
-      }}
-      
-    /> */}
-            
-
-            {/* <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={handlePageChange}
-              // sx={{ mt: 3, mb: 2 }}
+              error = {Boolean(CityError)}
+              helperText={CityError}
+              value={city}
               sx={{
                 fontFamily: 'Poppins',
-                marginTop:'40px',
-                padding: '10px', // Adjust the padding as needed
+                marginTop: '10px',
+                // padding: '10px', // Adjust the padding as needed
                 borderRadius: '50px', // Adjust the border radius as needed
-                color:'#fff',
-                backgroundColor: "#7066FD",
-            
-            }}
+                marginRight: '60px',
+              }}
+            />
 
-            >
-              Continue
-            </Button>
-            <div style={{fontFamily:'Poppins',fontWeight:'bold',display:'flex',justifyContent:'center',alignItems:'center',marginTop:'10px'}} >
-            Skip to continue
-          </div> */}
+
+
+
             <Grid container>
-             
-              
+
+
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

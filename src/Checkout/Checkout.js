@@ -9,10 +9,11 @@ import Typography from '@mui/material/Typography';
 import Logiin from '../scenes/signup/logiin';
 import Gender from '../scenes/signup/gender';
 import Categorys from '../scenes/signup/Categorys';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SetAvatar from '../scenes/signup/SetAvatar';
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import ErrorMessage from '../scenes/signup/ErrorMessage';
 // import Review from './Review';
 
 function Copyright() {
@@ -44,8 +45,8 @@ export default function Checkout() {
     const [lastNameError, setLastNameError] = React.useState('');
     const [passwordError, setPasswordError] = React.useState('');
     const [gender, setGender] = React.useState('');
-    const [city ,setCity] = React.useState('')
-    const [country,setCountry] = React.useState('')
+    const [city, setCity] = React.useState('')
+    const [country, setCountry] = React.useState('')
     const [selectedCountryValue, setSelectedCountryValue] = React.useState(null);
     const [datac, setDatac] = React.useState('')
     const [isClicked, setIsClicked] = React.useState(false);
@@ -57,6 +58,16 @@ export default function Checkout() {
     const [Valuesone, setValuesone] = React.useState('')
     const [Valuescategory, setValuescategory] = React.useState('')
     const [error, setError] = React.useState("");
+    const [FirstNameError, setfirstNameError] = React.useState("");
+    const [LastNameError, setlastNameError] = React.useState("");
+    const [EmailError, setemailError] = React.useState("");
+    const [PasswordError, setpasswordError] = React.useState("");
+    const [countryError, setcountryError] = React.useState("");
+    const [cityError, setcityError] = React.useState("");
+    const [GenderError, setgenderError] = React.useState("");
+    const [bioError, setbioError] = React.useState("");
+    const [displaynameError, setdisplaynameError] = React.useState("");
+
 
 
     const dispatch = useDispatch()
@@ -64,85 +75,210 @@ export default function Checkout() {
 
     const steps = ['Shipping address', 'Payment details', 'Review your order', 'Set Avatar'];
 
-   console.log("Email:",gender)    
+    console.log("Email:", gender)
 
-    var body = {email , password , firstName , lastName}
-    var bodygen = {gender,city,datac}
-    var bodygens = {selectedChips,intrest,displayname,bio}
-    const handleNext = (e) => {
-        setActiveStep(activeStep + 1);
-        dispatch({type:'ADD_PATIENT',payload:[email,body]})
-        dispatch({type:'ADD_GENDER',payload:[city,bodygen]})
-        dispatch({type:'ADD_CATEGORY',payload:[selectedChips,bodygens]})
-        
+    var body = { email, password, firstName, lastName }
+    var bodygen = { gender, city, datac }
+    var bodygens = { selectedChips, intrest, displayname, bio }
+
+    const handleNext = (step) => {
+        var error = false
+        switch (step) {
+            case 0:
+                {
+                    if (firstName.trim() === '') {
+                        setFirstNameError('First Name is required');
+                        error = true
+                    }
+                    else {
+                        setFirstNameError('')
+                    }
+
+                    if (lastName.trim() === '') {
+                        setLastNameError('Last Name is required');
+                        error = true
+                    }
+                    else {
+                        setLastNameError('')
+                    }
+                    if (email.trim() === '' || !(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/).test(email)) {
+                        setEmailError('Email is required');
+                        error = true
+                    }
+                    else {
+                        setEmailError('')
+                    }
+                    if (password.trim() === '') {
+                        setPasswordError('Password is required');
+                        error = true
+                    }
+                    else {
+                        setPasswordError('')
+                    }
+                    if (password !== confirmPassword) {
+                        setPasswordError('Password do not match');
+                        error = true
+                    }
+
+                    break;
+                }
+
+            case 1:
+                {
+                    if (gender?.trim() === '') {
+                        setgenderError("Gender is required")
+                        error = true
+                    }
+                    else {
+                        setgenderError('')
+                    }
+                    if (city.trim() === '') {
+                        setcityError("City is required")
+                        error = true
+                    }
+                    else {
+                        setcityError('')
+                    }
+                    break;
+                }
+            case 2:
+                {
+                    if( bio.length === 0){
+                        setbioError("Bio is required")
+                        error = true
+                    }
+                    else{
+                        setbioError('')
+                    }
+                    if( displayname.length === 0){
+                        setdisplaynameError("Display Name is required")
+                        error = true
+                    }
+                    else{
+                        setdisplaynameError('')
+                    }
+                    break;
+                }
+            default:
+                { }
+        }
+        if (error === false) {
+            setActiveStep(activeStep + 1);
+            dispatch({ type: 'ADD_PATIENT', payload: [email, body] })
+            dispatch({ type: 'ADD_GENDER', payload: [city, bodygen] })
+            dispatch({ type: 'ADD_CATEGORY', payload: [selectedChips, bodygens] })
+        }
+
+
+        return error
+
     };
 
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
 
+    const patientsData = useSelector(state => state.patient);
+    const gendersData = useSelector(state => state.gender);
+    const categorysData = useSelector(state => state.category);
+
+    const SignupsDetail = Object.values(patientsData)[0]
+    const GendersDetail = Object.values(gendersData)[0]
+    const CategorysDetail = Object.values(categorysData)[0]
+
+
+    React.useEffect(() => {
+        if (SignupsDetail && SignupsDetail.firstName) {
+            setFirstName(SignupsDetail.firstName);
+        }
+        if (SignupsDetail && SignupsDetail.lastName) {
+            setLastName(SignupsDetail.lastName);
+        }
+        if (SignupsDetail && SignupsDetail.email) {
+            setEmail(SignupsDetail.email);
+        }
+        if (SignupsDetail && SignupsDetail.password) {
+            setPassword(SignupsDetail.password);
+        }
+        if (GendersDetail && GendersDetail.gender) {
+            setGender(GendersDetail.gender);
+        }
+        if (GendersDetail && GendersDetail.city) {
+            setGender(GendersDetail.city);
+        }
+        if(CategorysDetail && CategorysDetail.bio){
+            setBio(CategorysDetail.bio)
+        }
+        if(CategorysDetail && CategorysDetail.displayname){
+            setDisplaynamee(CategorysDetail.displayname)
+        }
+
+    }, [activeStep, SignupsDetail, GendersDetail, CategorysDetail]);
+    console.log("SignupsDetail:", email)
+
     const handleSignup = async () => {
         try {
-          const signupData = {
-            first_name: Values.firstName,
-            last_name: Values.lastName,
-            email: Values.email,
-            password: Values.password,
-            gender: Valuesone.gender,
-            city : Valuesone.city,
-            country : Valuesone.datac,
-            bio : Valuescategory.bio,
-            username : Valuescategory.displayname,
-            intrest : Valuescategory.intrest,
-            selectedChip : Valuescategory.selectedChips,
-          };
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/api/user/register`,
-            {
-              method: "POST",
-              body: JSON.stringify(signupData),
-              headers: {
-                "Content-Type": "application/json",
-              },
-              
+            const signupData = {
+                first_name: Values.firstName,
+                last_name: Values.lastName,
+                email: Values.email,
+                password: Values.password,
+                gender: Valuesone.gender,
+                city: Valuesone.city,
+                country: Valuesone.datac,
+                bio: Valuescategory.bio,
+                username: Valuescategory.displayname,
+                intrest: Valuescategory.intrest,
+                selectedChip: Valuescategory.selectedChips,
+            };
+            const response = await fetch(
+                `${process.env.REACT_APP_BACKEND_URL}/api/user/register`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(signupData),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+
+                }
+            );
+
+            const data = await response.json();
+            console.log("Signup response:", data);
+            console.log("2")
+
+            if (response.status === 201) {
+                Swal.fire({
+                    position: "top",
+                    icon: "success",
+                    title: "Signup successful",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true,
+                });
+                console.log("Signup successful");
+                setError("");
+                navigate("/login"); // Redirect to login page after successful signup
+            } else {
+                // Handle unsuccessful signup
+                setError("Signup failed. Please try again.");
             }
-          );
-    
-          const data = await response.json();
-          console.log("Signup response:", data);
-          console.log("2")
-    
-          if (response.status === 201) {
-            Swal.fire({
-              position: "top",
-              icon: "success",
-              title: "Signup successful",
-              showConfirmButton: false,
-              timer: 3000,
-              toast: true,
-            });
-            console.log("Signup successful");
-            setError("");
-            navigate("/login"); // Redirect to login page after successful signup
-          } else {
-            // Handle unsuccessful signup
-            setError("Signup failed. Please try again.");
-          }
         } catch (error) {
-          console.error("Error during signup:", error.message);
-          setError("An error occurred during signup");
+            console.error("Error during signup:", error.message);
+            setError("An error occurred during signup");
         }
-      };
-    
+    };
+
 
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <Logiin firstName={firstName} setFirstName={setFirstName} lastName={lastName} setLastName={setLastName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} emailError={emailError} setEmailError={setEmailError} firstNameError={firstNameError} setFirstNameError={setFirstNameError} lastNameError={lastNameError} setLastNameError={setLastNameError} passwordError={passwordError} setPasswordError={setPasswordError} />;
+                return <Logiin firstName={firstName} setFirstName={setFirstName} lastName={lastName} setLastName={setLastName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} emailError={emailError} setEmailError={setEmailError} firstNameError={firstNameError} setFirstNameError={setFirstNameError} lastNameError={lastNameError} setLastNameError={setLastNameError} passwordError={passwordError} setPasswordError={setPasswordError} FirstNameError={FirstNameError} setfirstNameError={setfirstNameError} LastNameError={LastNameError} setlastNameError={setlastNameError} EmailError={EmailError} setemailError={setemailError} PasswordError={PasswordError} setpasswordError={setpasswordError} />;
+
             case 1:
-                return <Gender gender={gender} setGender={setGender} city={city} setCity={setCity} country={country} setCountry={setCountry} selectedCountryValue={selectedCountryValue} setSelectedCountryValue={setSelectedCountryValue} datac={datac} setDatac={setDatac}/>;
+                return <Gender gender={gender} setGender={setGender} city={city} setCity={setCity} country={country} setCountry={setCountry} selectedCountryValue={selectedCountryValue} setSelectedCountryValue={setSelectedCountryValue} datac={datac} setDatac={setDatac} GenderError={GenderError} setgenderError={setgenderError} countryError={countryError} setcountryError={setcountryError} cityError={cityError} setcityError={setcityError} />;
             case 2:
-              return <Categorys isClicked={isClicked} setIsClicked={setIsClicked} selectedChips={selectedChips} setSelectedChips={setSelectedChips} intrest={intrest} setInterest={setInterest} bio={bio} setBio={setBio} displayname={displayname} setDisplaynamee={setDisplaynamee}/>;
+                return <Categorys isClicked={isClicked} setIsClicked={setIsClicked} selectedChips={selectedChips} setSelectedChips={setSelectedChips} intrest={intrest} setInterest={setInterest} bio={bio} setBio={setBio} displayname={displayname} setDisplaynamee={setDisplaynamee} bioError={bioError} setbioError={setbioError} displaynameError={displaynameError} setdisplaynameError={setdisplaynameError} />;
             case 3:
                 return <SetAvatar Values={Values} setValues={setValues} Valuesone={Valuesone} setValuesone={setValuesone} Valuescategory={Valuescategory} setValuescategory={setValuescategory} />;
             // case 3:
@@ -155,35 +291,10 @@ export default function Checkout() {
     console.log("Active Step:", firstName)
 
     return (
-        <React.Fragment sx={{ backgroundColor: '#fff' }}>
+        <React.Fragment>
             <CssBaseline />
-            <AppBar
-                position="absolute"
-                color="default"
-                elevation={0}
-                sx={{
-                    position: 'relative',
-                    borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                }}
-            >
-                {/* <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar> */}
-            </AppBar>
-            <Container component="main" fullWidth sx={{ mb: 4, backgroundColor: '#fff' }}>
-                {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } , backgroundColor: '#fff' }}> */}
-                {/* <Typography component="h1" variant="h4" align="center">
-            Checkout
-          </Typography>
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper> */}
+            <Container component="main" sx={{ width: '110%', minWidth: '100%' }} >
+
                 {activeStep === steps.length ? (
                     <React.Fragment>
                         <Typography variant="h5" gutterBottom>
@@ -200,7 +311,19 @@ export default function Checkout() {
                         {getStepContent(activeStep)}
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                             {activeStep !== 0 && (
-                                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                <Button onClick={handleBack}
+                                    //  sx={{ mt: 3, ml: 1 }}
+                                    sx={{
+                                        fontFamily: 'Poppins',
+                                        marginTop: '10px',
+                                        marginRight: '1%',
+                                        padding: '15px 30px',
+                                        borderRadius: '50px',
+                                        color: '#fff',
+                                        backgroundColor: "#7066FD",
+                                        fontSize: '13px',
+                                    }}
+                                >
                                     Back
                                 </Button>
                             )}
@@ -208,18 +331,21 @@ export default function Checkout() {
                             <Button
                                 type="submit"
                                 variant="contained"
-                                onClick={() => {activeStep === steps.length -1 ? handleSignup() :handleNext()}}
-                                // sx={{ mt: 3, mb: 2 }}
+
+                                onClick={() => { activeStep === steps.length - 1 ? handleSignup() : handleNext(activeStep) }}
+
                                 sx={{
                                     fontFamily: 'Poppins',
-                                    marginTop: '30px',
-                                    padding: '10px', // Adjust the padding as needed
-                                    borderRadius: '50px', // Adjust the border radius as needed
+                                    marginTop: '10px',
+                                    marginRight: '40%',
+                                    padding: '15px 30px',
+                                    borderRadius: '50px',
                                     color: '#fff',
                                     backgroundColor: "#7066FD",
+                                    fontSize: '13px',
                                 }}
                             >
-                                {activeStep === steps.length - 1 ? 'signin'  : 'Continue'}
+                                {activeStep === steps.length - 1 ? 'signin' : 'Continue'}
                             </Button>
                         </Box>
                     </React.Fragment>
