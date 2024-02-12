@@ -605,7 +605,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
             sx={{
               // marginTop: 10,
               // backgroundColor:'#000',
-              height: '98vh',
+              height: '95vh',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
