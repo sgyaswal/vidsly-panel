@@ -353,8 +353,8 @@ export default function Checkout() {
 
                                 sx={{
                                     fontFamily: 'Poppins',
-                                    marginTop: '10px',
-                                    // marginBottom:'px',
+                                    marginTop: '8px',
+                                   
                                     marginRight: '42%',
                                     padding: '15px 30px',
                                     borderRadius: '50px',
