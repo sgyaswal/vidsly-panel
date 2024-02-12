@@ -321,7 +321,7 @@ export default function Checkout() {
                                     //  sx={{ mt: 3, ml: 1 }}
                                     sx={{
                                         fontFamily: 'Poppins',
-                                        marginTop: '10px',
+                                        marginTop: '5%',
                                         marginRight: '1%',
                                         padding: '15px 30px',
                                         borderRadius: '50px',
