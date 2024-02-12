@@ -14,6 +14,7 @@ import SetAvatar from '../scenes/signup/SetAvatar';
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from '../scenes/signup/ErrorMessage';
+import { act } from 'react-dom/test-utils';
 // import Review from './Review';
 
 function Copyright() {
@@ -143,18 +144,18 @@ export default function Checkout() {
                 }
             case 2:
                 {
-                    if( bio.length === 0){
+                    if (bio.length === 0) {
                         setbioError("Bio is required")
                         error = true
                     }
-                    else{
+                    else {
                         setbioError('')
                     }
-                    if( displayname.length === 0){
+                    if (displayname.length === 0) {
                         setdisplaynameError("Display Name is required")
                         error = true
                     }
-                    else{
+                    else {
                         setdisplaynameError('')
                     }
                     break;
@@ -206,10 +207,10 @@ export default function Checkout() {
         if (GendersDetail && GendersDetail.city) {
             setGender(GendersDetail.city);
         }
-        if(CategorysDetail && CategorysDetail.bio){
+        if (CategorysDetail && CategorysDetail.bio) {
             setBio(CategorysDetail.bio)
         }
-        if(CategorysDetail && CategorysDetail.displayname){
+        if (CategorysDetail && CategorysDetail.displayname) {
             setDisplaynamee(CategorysDetail.displayname)
         }
 
@@ -293,7 +294,12 @@ export default function Checkout() {
     return (
         <React.Fragment>
             <CssBaseline />
-            <Container component="main" sx={{ width: '110%', minWidth: '100%' }} >
+            <Container component="main" sx={{
+                width: '100%', minWidth: '100%',
+                //  background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)'
+                background: activeStep === 0 ? 'linear-gradient(45deg, #87CEEB, #FFB6C1)' : 'inherit'
+                
+                 }} >
 
                 {activeStep === steps.length ? (
                     <React.Fragment>
@@ -334,15 +340,28 @@ export default function Checkout() {
 
                                 onClick={() => { activeStep === steps.length - 1 ? handleSignup() : handleNext(activeStep) }}
 
+                                // sx={{
+                                //     fontFamily: 'Poppins',
+                                //     marginTop: '10px',
+                                //     marginRight: '45%',
+                                //     padding: '15px 30px',
+                                //     borderRadius: '50px',
+                                //     color: '#fff',
+                                //     backgroundColor: "#7066FD",
+                                //     fontSize: '13px',
+                                // }}
+
                                 sx={{
                                     fontFamily: 'Poppins',
                                     marginTop: '10px',
-                                    marginRight: '45%',
+                                    // marginBottom:'px',
+                                    marginRight: '42%',
                                     padding: '15px 30px',
                                     borderRadius: '50px',
                                     color: '#fff',
                                     backgroundColor: "#7066FD",
                                     fontSize: '13px',
+                                    
                                 }}
                             >
                                 {activeStep === steps.length - 1 ? 'signin' : 'Continue'}
@@ -351,7 +370,6 @@ export default function Checkout() {
                     </React.Fragment>
                 )}
                 {/* </Paper> */}
-                <Copyright />
             </Container>
         </React.Fragment>
     );
