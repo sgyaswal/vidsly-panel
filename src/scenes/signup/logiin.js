@@ -589,7 +589,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
       background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)'
       ,
 
-      height: '100vh', width: '100%'
+      height: '85vh', width: '100%'
       ,
       //  marginBottom:'10'
     }}>
@@ -598,7 +598,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
         <Container component="main" maxWidth="xs"     >
           <CssBaseline />
           <div
-            style={{ height: '2vh' }}>
+            style={{ height: '3vh' }}>
 
           </div>
           <Box

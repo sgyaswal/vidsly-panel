@@ -315,7 +315,7 @@ export default function Checkout() {
                 ) : (
                     <React.Fragment>
                         {getStepContent(activeStep)}
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end'  }}>
                             {activeStep !== 0 && (
                                 <Button onClick={handleBack}
                                     //  sx={{ mt: 3, ml: 1 }}
@@ -353,8 +353,8 @@ export default function Checkout() {
 
                                 sx={{
                                     fontFamily: 'Poppins',
-                                    marginTop: '8px',
-                                   
+                                    // marginTop: '8px',
+                                   marginBottom: '10px',
                                     marginRight: '42%',
                                     padding: '15px 30px',
                                     borderRadius: '50px',
