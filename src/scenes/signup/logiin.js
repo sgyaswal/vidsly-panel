@@ -334,17 +334,7 @@
 // //             </Box>
 // //           </Box>
 // //         </Grid>
-// //         <Grid
-// //           item
-// //           xs={false}
-// //           sm={4}
-// //           md={7}
 
-
-// //           style={{ backgroundImage: `url(${vidsly})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', width: '600px', height: '610px', backgroundColor: '#000' }}
-
-// //         />
-// //       </Grid>
 // //     </ThemeProvider>
 // //   );
 // // }
@@ -570,6 +560,7 @@ import Container from '@mui/material/Container';
 import { Routes, Route } from 'react-router-dom';
 import Gender from './gender';
 import { useDispatch, useSelector } from "react-redux";
+import vidsly from "../../assets/Vidsly.jpeg"
 // import { addPatient } from './action';
 
 
@@ -598,7 +589,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
       background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)'
       ,
 
-      height: '91vh', width: '100%'
+      height: '100vh', width: '100%'
       ,
       //  marginBottom:'10'
     }}>
@@ -626,53 +617,35 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
 
             <Box component="form" noValidate sx={{ mt: 1 }}>
 
+            <img src={vidsly} alt="logo" style={{ height: '50px', width: '50px',justifyContent:'center',display:'flex',alignItems:'center',borderRadius:'25px',marginLeft:'45%' }} />
+
               <div style={{ fontFamily: 'Poppins', fontWeight: 'bold', display: 'flex', marginBottom: '5px' }}  >
                 First Name
               </div>
-              {/* <TextField
+             
+              <TextField
                 fullWidth
                 error={Boolean(firstNameError)}
                 helperText={firstNameError}
                 value={firstName}
                 InputProps={{
-                  style: { borderRadius: '50px' }
+                  style: {
+                    borderRadius: '50px',
+                    fontSize: '14px', // Adjust the font size as needed
+                    padding: '8px 12px', // Adjust the padding as needed
+                    height: '45px' // Adjust the height as needed
+                  }
                 }}
-
                 variant="outlined"
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder='First Name'
-
                 sx={{
                   fontFamily: 'Poppins',
                   marginTop: '5px',
-                  // padding: '10px', // Adjust the padding as needed
-                  borderRadius: '50px', // Adjust the border radius as needed
+                  borderRadius: '50px',
                   marginRight: '60px',
                 }}
-              /> */}
-              <TextField
-  fullWidth
-  error={Boolean(firstNameError)}
-  helperText={firstNameError}
-  value={firstName}
-  InputProps={{
-    style: { 
-      borderRadius: '50px',
-      fontSize: '14px', // Adjust the font size as needed
-      padding: '8px 12px', // Adjust the padding as needed
-      height: '45px' // Adjust the height as needed
-    }
-  }}
-  variant="outlined"
-  onChange={(e) => setFirstName(e.target.value)}
-  placeholder='First Name'
-  sx={{
-    fontFamily: 'Poppins',
-    marginTop: '5px',
-    borderRadius: '50px',
-    marginRight: '60px',
-  }}
-/>
+              />
 
               <div style={{ fontFamily: 'Poppins', fontWeight: 'bold', display: 'flex', marginBottom: '5px', marginTop: '2px' }}  >
                 Last Name
@@ -683,7 +656,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
                 helperText={lastNameError}
                 value={lastName}
                 InputProps={{
-                  style: { 
+                  style: {
                     borderRadius: '50px',
                     fontSize: '14px', // Adjust the font size as needed
                     padding: '8px 12px', // Adjust the padding as needed
@@ -714,7 +687,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
                 onChange={(e) => setEmail(e.target.value)}
 
                 InputProps={{
-                  style: { 
+                  style: {
                     borderRadius: '50px',
                     fontSize: '14px', // Adjust the font size as needed
                     padding: '8px 12px', // Adjust the padding as needed
@@ -746,7 +719,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
                 helperText={passwordError}
 
                 InputProps={{
-                  style: { 
+                  style: {
                     borderRadius: '50px',
                     fontSize: '14px', // Adjust the font size as needed
                     padding: '8px 12px', // Adjust the padding as needed
@@ -782,7 +755,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 id="password"
                 InputProps={{
-                  style: { 
+                  style: {
                     borderRadius: '50px',
                     fontSize: '14px', // Adjust the font size as needed
                     padding: '8px 12px', // Adjust the padding as needed
@@ -806,14 +779,12 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
 
 
 
-              <Grid container>
-
-
-              </Grid>
-            </Box>
+             
+            
           </Box>
-        </Container>
-      </ThemeProvider>
-    </div>
+        </Box>
+      </Container>
+    </ThemeProvider>
+    </div >
   );
 }
