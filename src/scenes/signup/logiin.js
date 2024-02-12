@@ -589,7 +589,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
       background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)'
       ,
 
-      height: '85vh', width: '100%'
+      height: '91vh', width: '100%'
       ,
       //  marginBottom:'10'
     }}>
@@ -605,6 +605,7 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
             sx={{
               // marginTop: 10,
               // backgroundColor:'#000',
+              height: '98vh',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
