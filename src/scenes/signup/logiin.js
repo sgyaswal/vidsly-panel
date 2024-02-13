@@ -587,8 +587,8 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
     <div style={{
       // backgroundColor: 'orange'
       // background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)',
-      // background: 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)',
-      background: '#000',
+      background: 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)',
+      // background: '#000',
       height: 'max-content', width: '100%',
       minWidth: '100%',
       display: 'flex',
@@ -621,9 +621,9 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
 
             <Box component="form" noValidate sx={{ mt: 1 }}>
 
-            <img src={vidsly} alt="logo" style={{ height: '50px', width: '50px',justifyContent:'center',display:'flex',alignItems:'center',borderRadius:'25px',marginLeft:'45%' }} />
+            <img src={vidsly} alt="logo" style={{ height: '50px', width: '50px',justifyContent:'center',display:'flex',alignItems:'center',borderRadius:'10px',marginLeft:'40%' }} />
 
-              <div style={{ fontFamily: 'Poppins', fontWeight: 'bold', display: 'flex', marginBottom: '5px' }}  >
+              <div style={{ fontFamily: 'Poppins', fontWeight: 'bold', display: 'flex', marginBottom: '5px', marginTop: '5%' }}  >
                 First Name
               </div>
              
