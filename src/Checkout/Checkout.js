@@ -298,7 +298,8 @@ export default function Checkout() {
                 width: '100%', minWidth: '100%',
                 height: 'max-content', minHeight: '100%',
                 //  background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)'
-                background: activeStep === 0 ? 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)' : 'inherit'
+                // background: activeStep === 0 ? 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)' : 'inherit'
+                background: activeStep === 0 ? '#000' : 'inherit'
                 
                  }} >
 
@@ -355,12 +356,11 @@ export default function Checkout() {
                                 sx={{
                                     fontFamily: 'Poppins',
                                     marginTop: '5%',
-                                  
                                     marginRight: '45%',
                                     padding: '15px 30px',
                                     borderRadius: '50px',
                                     color: '#fff',
-                                    backgroundColor: "#7066FD",
+                                    backgroundColor: "#27ae60",
                                     fontSize: '13px',
                                     
                                 }}

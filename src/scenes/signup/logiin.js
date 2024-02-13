@@ -587,9 +587,13 @@ export default function Logiin({ firstName, lastName, email, password, confirmPa
     <div style={{
       // backgroundColor: 'orange'
       // background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)',
-      background: 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)',
+      // background: 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)',
+      background: '#000',
       height: 'max-content', width: '100%',
       minWidth: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       //  marginBottom:'10'
     }}>
 
