@@ -84,6 +84,8 @@ export default function Gender({ gender, city, country, selectedCountryValue, se
             flexDirection: 'column',
             alignItems: 'center',
             borderRadius: '10px',
+            width: 'fit-content',
+            padding: '20px',
             backgroundColor: 'white',
           }}
         >
