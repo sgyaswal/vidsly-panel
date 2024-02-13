@@ -28,7 +28,7 @@ const Login = () => {
   const handleSignup = (e) => {
     console.log("Signup clicked");
     // navigate('/stepone');
-    navigate('/checkout');
+    navigate('/signup');
   }
 
   return (
@@ -107,7 +107,7 @@ const Login = () => {
                 <label className="container">
                   <p>
                     Don't have an account?{" "}
-                    <a href="/checkout" onClick={handleSignup} className="text">
+                    <a href="/signup" onClick={handleSignup} className="text">
                       Signup Here
                     </a>
                             </p>

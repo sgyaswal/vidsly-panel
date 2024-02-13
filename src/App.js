@@ -95,10 +95,10 @@ function App() {
       navigate('/signup');
     }
     
-    else if (window.location.pathname.includes('/checkout')) {
+    // else if (window.location.pathname.includes('/checkout')) {
       
-      navigate('/checkout');
-    }
+    //   navigate('/checkout');
+    // }
     
     else if (window.location.pathname.includes('/forgotpass')) {
       // Redirect to the login page if the token is not present and not navigating to signup
