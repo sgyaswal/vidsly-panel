@@ -69,6 +69,7 @@ export default function Checkout() {
     const [bioError, setbioError] = React.useState("");
     const [displaynameError, setdisplaynameError] = React.useState("");
     const [image, setImage] = React.useState(null);
+    const [showPassword, setShowPassword] = React.useState(false);
 
 
 
@@ -277,7 +278,7 @@ export default function Checkout() {
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <Logiin firstName={firstName} setFirstName={setFirstName} lastName={lastName} setLastName={setLastName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} emailError={emailError} setEmailError={setEmailError} firstNameError={firstNameError} setFirstNameError={setFirstNameError} lastNameError={lastNameError} setLastNameError={setLastNameError} passwordError={passwordError} setPasswordError={setPasswordError} FirstNameError={FirstNameError} setfirstNameError={setfirstNameError} LastNameError={LastNameError} setlastNameError={setlastNameError} EmailError={EmailError} setemailError={setemailError} PasswordError={PasswordError} setpasswordError={setpasswordError} />;
+                return <Logiin firstName={firstName} setFirstName={setFirstName} lastName={lastName} setLastName={setLastName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} emailError={emailError} setEmailError={setEmailError} firstNameError={firstNameError} setFirstNameError={setFirstNameError} lastNameError={lastNameError} setLastNameError={setLastNameError} passwordError={passwordError} setPasswordError={setPasswordError} FirstNameError={FirstNameError} setfirstNameError={setfirstNameError} LastNameError={LastNameError} setlastNameError={setlastNameError} EmailError={EmailError} setemailError={setemailError} PasswordError={PasswordError} setpasswordError={setpasswordError} showPassword={showPassword} setShowPassword={setShowPassword} />;
 
             case 1:
                 return <Gender gender={gender} setGender={setGender} city={city} setCity={setCity} country={country} setCountry={setCountry} selectedCountryValue={selectedCountryValue} setSelectedCountryValue={setSelectedCountryValue} datac={datac} setDatac={setDatac} GenderError={GenderError} setgenderError={setgenderError} countryError={countryError} setcountryError={setcountryError} cityError={cityError} setcityError={setcityError} />;
