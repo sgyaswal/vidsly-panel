@@ -96,25 +96,10 @@ function App() {
     }
     
     else if (window.location.pathname.includes('/checkout')) {
-      // Redirect to the login page if the token is not present and not navigating to signup
+      
       navigate('/checkout');
     }
-    else if (window.location.pathname.includes('/stepone')) {
-      // Redirect to the login page if the token is not present and not navigating to signup
-      navigate('/stepone');
-    }
-    else if (window.location.pathname.includes('/steptwo')) {
-      // Redirect to the login page if the token is not present and not navigating to signup
-      navigate('/steptwo');
-    }
-    else if (window.location.pathname.includes('/stepthree')) {
-      // Redirect to the login page if the token is not present and not navigating to signup
-      navigate('/stepthree');
-    }
-    else if (window.location.pathname.includes('/stepfour')) {
-      // Redirect to the login page if the token is not present and not navigating to signup
-      navigate('/stepfour');
-    }
+    
     else if (window.location.pathname.includes('/forgotpass')) {
       // Redirect to the login page if the token is not present and not navigating to signup
       navigate('/forgotpass');
@@ -162,7 +147,6 @@ function App() {
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/geography" element={<Geography />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
               <Route path="/forgotpass" element={<ForgotPass />} />
               <Route
                 path="/resetPassword/:id/:token"
@@ -172,7 +156,7 @@ function App() {
               <Route path='/steptwo' element={<Gender />} />
               <Route path='/stepthree' element={<Category />} />
               <Route path='/stepfour' element={<SetAvatar />} />
-              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/signup" element={<Checkout />} />
             </Routes>
           </main>
         </div>

@@ -300,7 +300,8 @@ export default function Checkout() {
             {
                 background: 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)',
                 height: '100vh',
-                width: '100vw',
+                width: 'fix - content',
+                minWidth: '100%',
                 display: 'flex',
 
             }
