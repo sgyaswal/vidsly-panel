@@ -296,6 +296,7 @@ export default function Checkout() {
             <CssBaseline />
             <Container component="main" sx={{
                 width: '100%', minWidth: '100%',
+                height: 'max-content',
                 //  background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)'
                 background: activeStep === 0 ? 'linear-gradient(45deg, #87CEEB, #FFB6C1)' : 'inherit'
                 
