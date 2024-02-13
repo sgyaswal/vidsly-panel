@@ -68,6 +68,7 @@ export default function Checkout() {
     const [GenderError, setgenderError] = React.useState("");
     const [bioError, setbioError] = React.useState("");
     const [displaynameError, setdisplaynameError] = React.useState("");
+    const [image, setImage] = React.useState(null);
 
 
 
@@ -216,6 +217,7 @@ export default function Checkout() {
 
     }, [activeStep, SignupsDetail, GendersDetail, CategorysDetail]);
     console.log("SignupsDetail:", email)
+    console.log("iimmmggg",image)
 
     const handleSignup = async () => {
         try {
@@ -231,6 +233,7 @@ export default function Checkout() {
                 username: Valuescategory.displayname,
                 intrest: Valuescategory.intrest,
                 selectedChip: Valuescategory.selectedChips,
+                // userimg : image
             };
             const response = await fetch(
                 `${process.env.REACT_APP_BACKEND_URL}/api/user/register`,
@@ -281,7 +284,7 @@ export default function Checkout() {
             case 2:
                 return <Categorys isClicked={isClicked} setIsClicked={setIsClicked} selectedChips={selectedChips} setSelectedChips={setSelectedChips} intrest={intrest} setInterest={setInterest} bio={bio} setBio={setBio} displayname={displayname} setDisplaynamee={setDisplaynamee} bioError={bioError} setbioError={setbioError} displaynameError={displaynameError} setdisplaynameError={setdisplaynameError} />;
             case 3:
-                return <SetAvatar Values={Values} setValues={setValues} Valuesone={Valuesone} setValuesone={setValuesone} Valuescategory={Valuescategory} setValuescategory={setValuescategory} />;
+                return <SetAvatar Values={Values} setValues={setValues} Valuesone={Valuesone} setValuesone={setValuesone} Valuescategory={Valuescategory} setValuescategory={setValuescategory} image={image} setImage={setImage} />;
             // case 3:
             //     return <SetAvatar />;
             default:
@@ -292,13 +295,22 @@ export default function Checkout() {
     console.log("Active Step:", firstName)
 
     return (
+        <div style={
+            {
+                background: 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)',
+                height: '100vh',
+                width: '100vw',
+                display: 'flex',
+
+            }
+        }>
         <React.Fragment>
             <CssBaseline />
             <Container component="main" sx={{
                 width: '100%', minWidth: '100%',
                 height: 'max-content', minHeight: '100%',
-                //  background: 'linear-gradient(45deg, #87CEEB, #FFB6C1)'
-                background: activeStep === 0 ? 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)' : 'inherit'
+                 background: 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)'
+                // background: activeStep === 0 ? 'linear-gradient(90deg, rgba(2,0,36,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%)' : 'inherit'
                 // background: activeStep === 0 ? '#000' : 'inherit'
                 
                  }} >
@@ -359,8 +371,8 @@ export default function Checkout() {
                                     marginRight: '45%',
                                     padding: '15px 30px',
                                     borderRadius: '50px',
-                                    color: '#000',
-                                    backgroundColor: "#fff",
+                                    color: '#fff',
+                                    backgroundColor: "#7066FD",
                                     fontSize: '13px',
                                     
                                 }}
@@ -373,5 +385,6 @@ export default function Checkout() {
                 {/* </Paper> */}
             </Container>
         </React.Fragment>
+        </div>
     );
 }

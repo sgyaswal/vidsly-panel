@@ -223,6 +223,13 @@ const theme = createTheme({
   };
 
   return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: '15%',
+    
+    }}>
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -230,8 +237,14 @@ const theme = createTheme({
           sx={{
             marginTop: 8,
             display: 'flex',
+            justifyContent: 'center',
             flexDirection: 'column',
+            
             alignItems: 'center',
+            borderRadius: '10px',
+            backgroundColor: 'white',
+            width: '38vw',
+            padding : '10px 20px',
           }}
         >
           {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -549,5 +562,6 @@ const theme = createTheme({
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
+    </div>
   );
 }

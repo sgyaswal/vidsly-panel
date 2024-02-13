@@ -83,6 +83,8 @@ export default function Gender({ gender, city, country, selectedCountryValue, se
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            borderRadius: '10px',
+            backgroundColor: 'white',
           }}
         >
           {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -145,6 +147,7 @@ export default function Gender({ gender, city, country, selectedCountryValue, se
                 // padding: '10px', // Adjust the padding as needed
                 borderRadius: '50px', // Adjust the border radius as needed
                 marginRight: '60px',
+                marginBottom: '10px'
               }}
             />
 
